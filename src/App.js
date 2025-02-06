@@ -23,9 +23,19 @@ import SignPledge from './pages/SignPledge';
 import McqOne from './pages/McqOne';
 import MCQSeven from './pages/MCQSeven';
 
+import { createTheme, ThemeProvider } from '@mui/material';
+const theme = createTheme({
+  typography: {
+    fontFamily: [
+      'Space Mono',
+      'Arial',
+    ].join(','),
+  },});
 
 function App() {
+  
   return (
+    <ThemeProvider theme={theme}>
     <Router>
       <Routes>
         <Route path="/" element={<LandingPage />} />
@@ -52,6 +62,7 @@ function App() {
       </Routes>
       
     </Router>
+    </ThemeProvider>
   );
 }
 
