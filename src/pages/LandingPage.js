@@ -10,7 +10,7 @@ function LandingPage() {
   const navigate = useNavigate();
   function handleSubmit(e) {  
     e.preventDefault();
-    console.log("clicked button");
+   
     navigate('/school');
   }
 

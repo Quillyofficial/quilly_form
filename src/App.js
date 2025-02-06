@@ -22,6 +22,7 @@ import Pledge from './pages/Pledge';
 import SignPledge from './pages/SignPledge';
 import McqOne from './pages/McqOne';
 import MCQSeven from './pages/MCQSeven';
+import ThankYouForInterest from './pages/ThankYouForInterest';
 
 import { createTheme, ThemeProvider } from '@mui/material';
 const theme = createTheme({
@@ -59,6 +60,7 @@ function App() {
         <Route path="/pledge" element={<Pledge />} />
         <Route path="/signPledge" element={<SignPledge/>} />
         <Route path="/school" element={<School />} />
+        <Route path="/notFromSchool" element={<ThankYouForInterest />} />
       </Routes>
       
     </Router>
