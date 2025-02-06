@@ -1,0 +1,17 @@
+- landing page: quilly doodle, let's start button, on click goes to next page
+- next page: do u go to berkely? yes or no 
+---> if yes = sign up page
+---> if no = be notified page 
+---> Welcome page - continue button
+--> 3 multiple choice pages
+--> where have u been? mind if i ask more page
+--> 3 more mCQ pages
+--> starting to get ur vibe page
+--> interests page
+--> 2 more mCQ
+--> thanks for completeing
+--> pledge 
+--> sign pledge
+--> thanks page
+--> kahlo house page
+--> join discord page
