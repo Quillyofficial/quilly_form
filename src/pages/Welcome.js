@@ -14,54 +14,63 @@ function Welcome() {
 
   return (
     <div class='imageClass'>
-      <img class="welcomeImage" src={welcome} alt="welcomeImage"/>
-
-      <div style={{position:'absolute', 
-        left: '100px',
-        top:'415px'}}>
-      <div style={{ 
-        alignItems: 'center',
-        justifyContent: 'center', 
-      }}>
-            
-        <Typography variant='h5' sx={{
-          textAlign: 'center',
-          position: 'relative',
-          left: '30px'
+    <div style={{
+      position:'absolute', 
+      top:'250px',
+      bottom:'120px',
+      display:'flex',
+      flexDirection:'column',
+      alignItems:'center',
+      justifyContent:'center'}}>
+          
+      <div style={{
+        display:'flex',
+        flexDirection:'column',
+        alignItems:'center',
+        justifyContent:'center'
         }}>
-          Welcome! Let's get you started 
-        </Typography>
-      </div>
-
-      <FormHelperText sx={{
-        textAlign: 'center',
-        position: 'relative',
-        left:'20px'
-      }}>
-        Let's hear abouy your activity preferences!
-      </FormHelperText>
-
-      <Button onClick={handleSubmit}
-        sx={{
-          backgroundColor: 'rgba(232, 226, 237, 1)',
-          color: 'black',
-          fontWeight: 'bold',
-          borderRadius: '20px',
-          width: '400px',
-          height: '50px',
-          border: 1,
-          position: 'relative',
-          top: '40px',
-          left: '50px',
-        }}
-      >
-        Continue
-      </Button>
-
+        <img class="welcomeImage" src={welcome} alt="welcomeImage"/>
       </div>
 
 
-    
+      <div style={{
+        position:'absolute', 
+        top:'150px',
+        display:'flex',
+        flexDirection:'column',
+        alignItems:'center',
+        justifyContent:'center'
+        }}>
+
+        <div style={{ 
+          alignItems: 'center',
+          justifyContent: 'center', 
+        }}> 
+          <Typography variant='h5' sx={{ textAlign: 'center'}}>
+            Welcome! Let's get you started 
+          </Typography>
+        </div>
+
+        <FormHelperText sx={{ textAlign: 'center'}}>
+          Let's hear abouy your activity preferences!
+        </FormHelperText>
+
+        <Button onClick={handleSubmit}
+          sx={{
+            backgroundColor: 'rgba(232, 226, 237, 1)',
+            color: 'black',
+            fontWeight: 'bold',
+            borderRadius: '20px',
+            width: '400px',
+            height: '50px',
+            border: 1,
+            top: '40px'}}
+        >
+          Continue
+        </Button>
+      </div>
+
+    </div>
     </div>
   )
 }
