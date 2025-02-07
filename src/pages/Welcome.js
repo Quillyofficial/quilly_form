@@ -13,7 +13,8 @@ function Welcome() {
   }
 
   return (
-    <div class='imageClass'>
+    <div>
+    <div class='container'>
     <div style={{
       position:'absolute', 
       top:'250px',
@@ -71,6 +72,17 @@ function Welcome() {
       </div>
 
     </div>
+    </div>
+
+      <FormHelperText sx={{
+        textAlign: 'center',
+        position: 'absolute',
+        bottom: '0', 
+        width: '100%'
+      }}>
+        www.myquilly.com Terms of Use
+      </FormHelperText>
+
     </div>
   )
 }
