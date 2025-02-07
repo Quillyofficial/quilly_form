@@ -20,7 +20,7 @@ import Thanks from './pages/Thanks';
 import Welcome from './pages/Welcome';
 import Pledge from './pages/Pledge';
 import SignPledge from './pages/SignPledge';
-import McqOne from './pages/McqOne';
+import MCQOne from './pages/MCQOne';
 import MCQSeven from './pages/MCQSeven';
 import ThankYouForInterest from './pages/ThankYouForInterest';
 
@@ -45,7 +45,7 @@ function App() {
         <Route path="/interests" element={<Interests />} />
         <Route path="/joinDiscord" element={<JoinDiscord />} />
         <Route path="/kahloHouse" element={<KahloHouse />} />
-        <Route path="/mcqOne" element={<McqOne />} />
+        <Route path="/mcqOne" element={<MCQOne />} />
         <Route path="/mcqTwo" element={<MCQTwo />} />
         <Route path="/mcqThree" element={<MCQThree />} />
         <Route path="/mcqFour" element={<MCQFour />} />

@@ -6,7 +6,7 @@ import { Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 
-function McqOne() {
+function MCQOne() {
   const navigate = useNavigate();
   const [selected, setSelected] = useState(0);
   const options = [
@@ -105,4 +105,4 @@ function McqOne() {
   )
 }
 
-export default McqOne
+export default MCQOne
