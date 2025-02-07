@@ -4,9 +4,18 @@ import { Typography } from '@mui/material'
 import { FormHelperText } from '@mui/material'
 import { Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 
 function McqOne() {
   const navigate = useNavigate();
+  const [selected, setSelected] = useState(0);
+  const options = [
+    {id: 1, emoji: "📖", text:"Relaxing at home with a book or movie."},
+    {id: 2, emoji: "👯", text:"Going on a hot girl walk with friends."},
+    {id: 3, emoji: "🎶", text:"Attending a concert or festival."},
+    {id: 4, emoji: "🏋️‍♀️", text:"Sweating out the stress."}
+  ];
+
   function handleSubmit(e) {  
     e.preventDefault();      
     navigate('/mcqTwo');
@@ -56,10 +65,16 @@ function McqOne() {
           Please choose an option
         </FormHelperText>
 
-        <Button class='mcqButton'> 📖 Relaxing at home with a book or movie. </Button>
-        <Button class='mcqButton'> 👯 Going on a hot girl walk with friends. </Button>
-        <Button class='mcqButton'> 🎶 Attending a concert or festival. </Button>
-        <Button class='mcqButton'> 🏋️‍♀️ Sweating out the stress. </Button>
+        {/* Options */}
+        { options.map((option) => (
+          <Button 
+            class={`mcqButton ${selected === option.id ? "option-selected" : "mcqButton"}`}
+            key={option.id}
+            onClick={()=> setSelected(option.id)}
+            >
+            <span>{option.emoji}</span> {option.text}
+          </Button>
+        ))}
 
         <Button onClick={handleSubmit}
           sx={{
