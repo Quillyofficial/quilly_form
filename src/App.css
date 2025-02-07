@@ -72,3 +72,22 @@
   margin-right: auto;
   width: 75%;
 }
+
+.mcqImage {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 40px;
+  width: 80%;
+}
+
+.mcqButton {
+  color: black;
+  background-color: white;
+  font-weight: bold;
+  border-radius: 30px;
+  width: 400px;
+  height: 50px;
+  border: 1;
+  position: relative;
+  margin-bottom: 4px;
+}
