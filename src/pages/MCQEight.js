@@ -18,7 +18,7 @@ function MCQEight() {
 
   function handleSubmit(e) {  
     e.preventDefault();      
-    navigate('/startingVibe');
+    navigate('/thanks');
   }
 
   return (

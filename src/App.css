@@ -68,8 +68,17 @@
 } 
 
 .otherImages {
+  margin-left: auto;
+  margin-right: auto;
   width: 65%;
   min-width: 500px;
+}
+
+.houseImg {
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+  min-width: 350px;
 }
 
 .mcqImage {
@@ -77,7 +86,7 @@
   margin-right: auto;
 }
 
-.yawnImg, .starImg {
+.yawnImg, .starImg, .musicImg{
   width: 55%;
   min-width: 500px;
 }
