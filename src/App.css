@@ -91,7 +91,7 @@
   min-width: 500px;
 }
 
-.campImg, .bookImg, .bagImg, .fightImg, .buddyImg {
+.campImg, .bookImg, .bagImg, .fightImg, .buddyImg, .bowImg{
   width: 50%;
   min-width: 350px;
 }
@@ -113,6 +113,18 @@
   border: 1px solid black;
   position: relative;
   margin-bottom: 4px;
+  cursor: pointer;
+}
+
+.interestButton {
+  color: black;
+  background-color: white;
+  font-weight: bold;
+  border-radius: 30px;
+  width: 150px;
+  height: 50px;
+  border: 1px solid black;
+  position: relative;
   cursor: pointer;
 }
 
