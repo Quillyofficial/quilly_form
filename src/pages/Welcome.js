@@ -30,7 +30,7 @@ function Welcome() {
         alignItems:'center',
         justifyContent:'center'
         }}>
-        <img class="welcomeImage" src={welcome} alt="welcomeImage"/>
+        <img class="otherImages" src={welcome} alt="welcomeImage"/>
       </div>
 
 
