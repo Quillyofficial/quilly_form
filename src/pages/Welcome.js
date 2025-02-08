@@ -17,7 +17,7 @@ function Welcome() {
     <div class='container'>
     <div style={{
       position:'absolute', 
-      top:'250px',
+      top:'230px',
       bottom:'120px',
       display:'flex',
       flexDirection:'column',

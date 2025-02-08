@@ -68,17 +68,26 @@
 } 
 
 .welcomeImage {
-  margin-left: auto;
-  margin-right: auto;
-  width: 75%;
+  width: 65%;
+  min-width: 500px;
 }
 
 .mcqImage {
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 40px;
-  width: 80%;
 }
+
+.yawnImg {
+  width: 55%;
+  min-width: 500px;
+}
+
+.campImg, .bookImg {
+  width: 50%;
+  min-width: 350px;
+}
+
+
 
 .mcqButton {
   color: black;

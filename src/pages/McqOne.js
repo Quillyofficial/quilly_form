@@ -29,7 +29,7 @@ function MCQOne() {
       
     <div style={{
       position:'absolute', 
-      top:'160px',
+      top:'135px',
       bottom:'120px',
       display:'flex',
       flexDirection:'column',
@@ -43,7 +43,7 @@ function MCQOne() {
         alignItems:'center',
         justifyContent:'center'
         }}>
-        <img class="mcqImage" src={yawn} alt="yawningImage"/>
+        <img class="mcqImage yawnImg" src={yawn} alt="yawningImage"/>
       </div>
 
       {/* Container for text and buttons */}

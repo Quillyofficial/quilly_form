@@ -29,7 +29,7 @@ function MCQTwo() {
       
     <div style={{
       position:'absolute', 
-      top:'180px',
+      top:'140px',
       bottom:'100px',
       display:'flex',
       flexDirection:'column',
@@ -41,10 +41,9 @@ function MCQTwo() {
         display:'flex',
         flexDirection:'column',
         alignItems:'center',
-        justifyContent:'center',
-        marginBottom:'40px'
+        justifyContent:'center'
         }}>
-        <img class="mcqImage" src={camp} alt="campImage"/>
+        <img class="mcqImage campImg" src={camp} alt="campImage"/>
       </div>
 
       {/* Container for text and buttons */}
