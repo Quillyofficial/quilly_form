@@ -99,9 +99,15 @@
 .batteryImg {
   width: 55%;
   min-width: 350px;
+  
 }
 
-
+.pledgeImg {
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  min-width: 350px;
+}
 
 .mcqButton {
   color: black;

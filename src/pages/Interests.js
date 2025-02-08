@@ -11,7 +11,7 @@ function Interests() {
 
   function handleSubmit(e) {  
     e.preventDefault();      
-    navigate('/thanks');
+    navigate('/mcqSeven');
   }
 
   const interests = [
