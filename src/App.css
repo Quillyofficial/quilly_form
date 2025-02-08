@@ -44,17 +44,26 @@
   width: 50%;
   position: relative;
   top: 160px;
-  
 } 
 
+.quillyImg {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  min-width: 600px;
+}
 
-.schoolImage {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 30%;
-    position: relative;
-    top: 150px;
+.fairWellImg {
+
+  width: 50%;
+  min-width: 400px;
+}
+
+
+.schoolImg {
+  width: 45%;
+  min-width: 400px;
 }
 
 

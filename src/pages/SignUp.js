@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FormControl, TextField } from '@mui/material'
 import {FormLabel } from '@mui/material'
 import signUp from '../images/signup.png'
@@ -6,6 +6,7 @@ import { Typography } from '@mui/material'
 import Button from '@mui/material/Button'
 import {Box}  from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import { FormHelperText, Checkbox } from '@mui/material'
 
 import {Grid } from '@mui/material'
 
@@ -17,14 +18,21 @@ function SignUp() {
     navigate('/welcome');
   }
 
+  const [checked, setChecked] = useState(false);
+
   return (
-    <div>
+    <div style={{
+      display:'flex', 
+      flexDirection:'column', 
+      alignItems:'center', 
+      justifyContent:'center',
+      marginTop:'80px'}}>
     <img style={{display: 'block',
-  marginLeft: 'auto',
-  marginRight: 'auto',
-  width: '350px',
-  position: 'relative',
-  top: '100px'}} src={signUp} alt="signUpImage" /> 
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      width: '350px',
+      position: 'relative',
+      top: '100px'}} src={signUp} alt="signUpImage" /> 
     <div>
     <Typography variant='h5' sx={{
       textAlign: 'center',
@@ -57,9 +65,12 @@ function SignUp() {
   </div>
   <Box
     display="flex"
-    justifyContent="center"
+    alignItems='center'
     sx={{ p: 1, border: '1px solid grey', width: '580px', margin: '0 auto', position: 'relative', top: '130px' }}
   >
+    <Checkbox 
+      checked={checked} 
+      onChange={(e) => setChecked(e.target.checked)} required/>
     I agree with the terms and conditions
   </Box>
   
@@ -74,10 +85,15 @@ function SignUp() {
       border: 1,
       position: 'relative',
       top: '150px',
-      left: '540px',
-      
       }}
       >Submit</Button>
+  
+  <FormHelperText sx={{
+    textAlign: 'center',
+    position: 'absolute',
+    bottom: '0', 
+    width: '100%'
+    }}>www.myquilly.com Terms of Use </FormHelperText>
 
   </div>
   )
