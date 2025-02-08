@@ -19,7 +19,7 @@ import StartingVibe from './pages/StartingVibe';
 import Thanks from './pages/Thanks';
 import Welcome from './pages/Welcome';
 import Pledge from './pages/Pledge';
-import SignPledge from './pages/SignPledge';
+import ThanksAgain from './pages/ThanksAgain';
 import MCQOne from './pages/MCQOne';
 import MCQSeven from './pages/MCQSeven';
 import ThankYouForInterest from './pages/ThankYouForInterest';
@@ -58,7 +58,7 @@ function App() {
         <Route path="/thanks" element={<Thanks />} />
         <Route path="/welcome" element={<Welcome />} />
         <Route path="/pledge" element={<Pledge />} />
-        <Route path="/signPledge" element={<SignPledge/>} />
+        <Route path="/thanksAgain" element={<ThanksAgain/>} />
         <Route path="/school" element={<School />} />
         <Route path="/notFromSchool" element={<ThankYouForInterest />} />
       </Routes>

@@ -77,13 +77,18 @@
   margin-right: auto;
 }
 
-.yawnImg {
+.yawnImg, .starImg {
   width: 55%;
   min-width: 500px;
 }
 
-.campImg, .bookImg {
+.campImg, .bookImg, .bagImg, .fightImg, .buddyImg {
   width: 50%;
+  min-width: 350px;
+}
+
+.batteryImg {
+  width: 55%;
   min-width: 350px;
 }
 
