@@ -20,7 +20,7 @@ import Thanks from './pages/Thanks';
 import Welcome from './pages/Welcome';
 import Pledge from './pages/Pledge';
 import ThanksAgain from './pages/ThanksAgain';
-import MCQOne from './pages/McqOne';
+import MCQOne from './pages/MCQOne';
 import MCQSeven from './pages/MCQSeven';
 import ThankYouForInterest from './pages/ThankYouForInterest';
 
