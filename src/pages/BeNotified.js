@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { FormControl, TextField } from '@mui/material'
-import {FormLabel } from '@mui/material'
+import { TextField } from '@mui/material'
+//import {FormLabel } from '@mui/material'
 import signUp from '../images/signup.png'
 import { Typography } from '@mui/material' 
 import Button from '@mui/material/Button'

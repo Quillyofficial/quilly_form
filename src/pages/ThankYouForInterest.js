@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 
 
 function ThankYouForInterest() {
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
     function handleBackToSite(e) {  
         e.preventDefault();      
         window.location.href = 'https://myquilly.com/';
