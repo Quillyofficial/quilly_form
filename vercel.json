@@ -4,10 +4,6 @@
       {
         "src": "src/pages/api/send-to-airtable.js",
         "use": "@vercel/node"
-      },
-      {
-        "src": "src/next.config.js",
-        "use": "@vercel/next"
       }
     ],
     "routes": [
@@ -17,7 +13,7 @@
       },
       {
         "src": "/(.*)",
-        "dest": "/src/pages/$1"
+        "dest": "/src/pages/LandingPage.js"
       }
     ]
   }
