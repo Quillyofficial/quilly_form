@@ -2,14 +2,23 @@
     "version": 2,
     "builds": [
       {
-        "src": "api/send-to-airtable.js",
+        "src": "package.json",
+        "use": "@vercel/static-build",
+        "config": { "distDir": "build" }
+      },
+      {
+        "src": "api/*.js",
         "use": "@vercel/node"
       }
     ],
     "routes": [
       {
-        "src": "/api/send-to-airtable",
-        "dest": "api/send-to-airtable.js"
+        "src": "/api/(.*)",
+        "dest": "/api/$1"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/index.html"
       }
     ]
   }
