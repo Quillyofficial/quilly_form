@@ -35,11 +35,13 @@ function SignUp() {
 
   return (
     <div style={{
-      display:'flex', 
-      flexDirection:'column', 
-      alignItems:'center', 
-      justifyContent:'center',
-      marginTop:'80px'}}>
+      display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+    flex-direction: column;
+    padding: 20px;}}>
     <img style={{display: 'block',
       marginLeft: 'auto',
       marginRight: 'auto',
