@@ -28,13 +28,25 @@ function MCQFour() {
     <div class='container'> 
       
     <div style={{
-      position:'absolute', 
-      top:'140px',
-      bottom:'100px',
-      display:'flex',
-      flexDirection:'column',
-      alignItems:'center',
-      justifyContent:'center'}}>
+      // position:'absolute', 
+      // top:'140px',
+      // bottom:'100px',
+      // left: '0px',
+      // display:'flex',
+      // flexDirection:'column',
+      // alignItems:'center',
+      // justifyContent:'center'
+
+      position: 'absolute',
+      top: '20vh',  // 20% of the viewport height
+      bottom: '10vh',  // 10% of the viewport height
+      left: '0',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      
+     }}>
 
       {/* Container for mcq image */}
       <div style={{

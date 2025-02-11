@@ -31,6 +31,7 @@ function MCQTwo() {
       position:'absolute', 
       top:'140px',
       bottom:'100px',
+      left: '0px',
       display:'flex',
       flexDirection:'column',
       alignItems:'center',
