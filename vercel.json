@@ -6,11 +6,8 @@
         "use": "@vercel/node"
       },
       {
-        "src": "package.json",
-        "use": "@vercel/node",
-        "config": {
-          "distDir": "build"
-        }
+        "src": "src/next.config.js",
+        "use": "@vercel/next"
       }
     ],
     "routes": [
