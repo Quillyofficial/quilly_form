@@ -24,14 +24,18 @@ function School() {
     <div class='container'> 
       
     <div style={{
+      
+      
+
       position:'absolute', 
       top:'160px',
       bottom:'120px',
-      left:'175px',
+      left:'0px',
       display:'flex',
       flexDirection:'column',
       alignItems:'center',
-      justifyContent:'center'}}>
+      justifyContent:'center'
+      }}>
 
       {/* Container for mcq image */}
       <div style={{

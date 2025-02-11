@@ -23,7 +23,7 @@ function LandingPage() {
       position:'absolute', 
       top:'230px',
       bottom:'120px',
-      left:'50px',
+      left:'0px',
       display:'flex',
       flexDirection:'column',
       alignItems:'center',

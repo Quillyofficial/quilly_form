@@ -20,7 +20,7 @@ function ThankYouForInterest() {
       position:'absolute', 
       top:'200px',
       bottom:'120px',
-      left:'120px',
+      left:'0px',
       display:'flex',
       flexDirection:'column',
       alignItems:'center',
