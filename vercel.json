@@ -1,15 +1,11 @@
 {
     "version": 2,
     "builds": [
-        {
-            "src": "src/pages/api/send-to-airtable.js",
-            "use": "@vercel/node"
-        }
     ],
     "routes": [
-        {
-            "src": "/api/send-to-airtable",
-            "dest": "src/pages/api/send-to-airtable.js"
-        }
+    	{
+            "src": "/",
+            "dest": "/pages/LandingPage"
+    	}	
     ]
 }
