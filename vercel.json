@@ -10,10 +10,6 @@
         {
             "src": "/api/send-to-airtable",
             "dest": "src/pages/api/send-to-airtable.js"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "/index.html"
         }
     ]
 }
