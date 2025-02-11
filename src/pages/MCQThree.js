@@ -70,7 +70,11 @@ function MCQThree() {
           <Button 
             class={`mcqButton ${selected === option.id ? "option-selected" : "mcqButton"}`}
             key={option.id}
-            onClick={()=> setSelected(option.id)}
+            onClick={()=> {
+              setSelected(option.id);
+              localStorage.setItem('mcqThree', option.id);
+              navigate('/askMore');
+            }}
             >
             <span>{option.emoji}</span> {option.text}
           </Button>

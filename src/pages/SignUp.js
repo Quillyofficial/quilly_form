@@ -14,11 +14,24 @@ function SignUp() {
   
   const navigate = useNavigate();
   function handleOnClick(e) {  
-    e.preventDefault();      
+    e.preventDefault();  
+    localStorage.setItem('lastName', formData.lastName);
+    localStorage.setItem('firstName', formData.firstName);
+    localStorage.setItem('email', formData.email);
+    localStorage.setItem('phone', formData.phone);    
     navigate('/welcome');
   }
 
   const [checked, setChecked] = useState(false);
+
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    agreed: false
+  });
+  
 
   return (
     <div style={{
@@ -49,17 +62,45 @@ function SignUp() {
     <Grid container spacing={2}>
       <Grid container item spacing={2}>
         <Grid item md={6}>
-          <TextField label="First Name" variant="outlined" fullWidth required />
+          <TextField 
+          label="First Name"
+          variant="outlined" 
+          fullWidth 
+          required
+          value={formData.firstName}
+          onChange={(e) => setFormData({ ...formData, firstName: e.target.value })} />
         </Grid>
         <Grid item md={6}>
-          <TextField label="Last Name" variant="outlined" fullWidth required/>
+          <TextField 
+          label="Last Name"
+          variant="outlined"
+          fullWidth
+          required
+          value={formData.lastName}
+          onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+          
+          />
         </Grid>
       </Grid>
       <Grid item md={12}>
-        <TextField label="Email Address" variant="outlined" fullWidth required/>
+        <TextField 
+        label="Email Address"
+        variant="outlined"
+        fullWidth
+        required
+        value={formData.email}
+        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+        />
       </Grid>
       <Grid item md={12}>
-        <TextField label="Phone Number" variant="outlined" fullWidth required/>
+        <TextField
+        label="Phone Number"
+        variant="outlined"
+        fullWidth
+        required
+        value = {formData.phone}
+        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+        />
       </Grid>
     </Grid>
   </div>

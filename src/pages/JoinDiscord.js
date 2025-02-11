@@ -5,6 +5,44 @@ import { Button } from '@mui/material'
 
 function JoinDiscord() {
   const discordInviteLink = "https://discord.gg/WQHaVwQ24d";
+  // Send the information stored in the state to the backend
+  function sendToBackend() {
+    // Get the information stored in the state
+    // Send the information to the backend
+    console.log({
+      'Last Name': localStorage.getItem('lastName'),
+      'First Name': localStorage.getItem('firstName'),
+      'Email': localStorage.getItem('email'),
+      'Phone': localStorage.getItem('phone')
+    });
+
+    fetch("https://airtable-backend.vercel.app/api/send-to-airtable", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        'Last Name': localStorage.getItem('lastName'),
+        'First Name': localStorage.getItem('firstName'),
+        'Email': localStorage.getItem('email'),
+        'Phone': localStorage.getItem('phone'),
+        'mcqOne': localStorage.getItem('mcqOne'),
+        'mcqTwo': localStorage.getItem('mcqTwo'),
+        'mcqThree': localStorage.getItem('mcqThree'),
+        'mcqFour': localStorage.getItem('mcqFour'),
+        'mcqFive': localStorage.getItem('mcqFive'),
+        'mcqSix': localStorage.getItem('mcqSix'),
+        'mcqSeven': localStorage.getItem('mcqSeven'),
+        'mcqEight': localStorage.getItem('mcqEight'),
+      }),
+    })
+    .then(response => response.text()) 
+    .then(data => console.log("Airtable Response:", data))
+    .catch(error => console.error("Error:", error));
+    
+
+  }
+
   return (
     <div>
       <div style={{display:'flex', justifyContent:'center', margin:'10px'}}>
@@ -52,7 +90,11 @@ function JoinDiscord() {
           click the button below
         </FormHelperText>
 
-        <Button onClick={() => window.open(discordInviteLink, "_blank")}
+        <Button onClick={() => 
+        {
+          window.open(discordInviteLink, "_blank");
+          sendToBackend();
+        }}
           sx={{
             backgroundColor: 'rgba(232, 226, 237, 1)',
             color: 'black',

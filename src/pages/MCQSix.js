@@ -69,7 +69,11 @@ function MCQSix() {
           <Button 
             class={`mcqButton ${selected === option.id ? "option-selected" : "mcqButton"}`}
             key={option.id}
-            onClick={()=> setSelected(option.id)}
+            onClick={()=> {
+              setSelected(option.id);
+              localStorage.setItem('mcqSix', option.id);
+              navigate('/startingVibe');
+            }}
             >
             <span>{option.emoji}</span> {option.text}
           </Button>

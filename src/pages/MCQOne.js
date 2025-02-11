@@ -70,7 +70,11 @@ function MCQOne() {
           <Button 
             class={`mcqButton ${selected === option.id ? "option-selected" : "mcqButton"}`}
             key={option.id}
-            onClick={()=> setSelected(option.id)}
+            onClick={()=> 
+              {setSelected(option.id);
+                localStorage.setItem('mcqOne', option.id);  // Save selected option to local storage
+                navigate('/mcqTwo'); 
+              }}
             >
             <span>{option.emoji}</span> {option.text}
           </Button>
