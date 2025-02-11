@@ -6,7 +6,7 @@
         "use": "@vercel/node"
       },
       {
-        "src": "src/pages/**/*.{js,ts,jsx,tsx}",
+        "src": "package.json",
         "use": "@vercel/next",
         "config": {
           "distDir": "build"
