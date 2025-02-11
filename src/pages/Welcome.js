@@ -15,13 +15,13 @@ function Welcome() {
   return (
     <div>
     <div class='container'>
-    <div style={{display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    position: relative;
-    flex-direction: column;
-    padding: 20px;}}>
+    <div style={{display: 'flex',
+    justify-content: 'cente',
+    align-items: 'center',
+    height: '100vh',
+    position: 'relative',
+    flex-direction: 'column',
+    padding: '20px'}}>
           
       <div style={{
         display:'flex',
