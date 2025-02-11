@@ -16,7 +16,7 @@ function JoinDiscord() {
       'Phone': localStorage.getItem('phone')
     });
 
-    fetch("https://airtable-backend.vercel.app/api/send-to-airtable", {
+    fetch("https://quilly-form.vercel.app/api/send-to-airtable", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

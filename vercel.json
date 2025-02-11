@@ -5,6 +5,12 @@
         "src": "api/send-to-airtable.js",
         "use": "@vercel/node"
       }
+    ],
+    "routes": [
+      {
+        "src": "/api/send-to-airtable",
+        "dest": "api/send-to-airtable.js"
+      }
     ]
   }
   
