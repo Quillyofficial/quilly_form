@@ -13,8 +13,6 @@ function Welcome() {
   }
 
   return (
-    <div>
-    <div class='container'>
     <div style={{display: 'flex',
     justifyContent: 'cente',
     alignItems: 'center',
@@ -34,7 +32,6 @@ function Welcome() {
 
 
       <div style={{
-        position:'absolute', 
         top:'150px',
         display:'flex',
         flexDirection:'column',
@@ -70,8 +67,6 @@ function Welcome() {
         </Button>
       </div>
 
-    </div>
-    </div>
 
       <FormHelperText sx={{
         textAlign: 'center',
