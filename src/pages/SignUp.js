@@ -34,13 +34,12 @@ function SignUp() {
   
 
   return (
-    <div style={{
-      display: 'flex',
-    justify-content: 'center',
-    align-items: 'center',
+    <div style={{display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     height: '100vh',
     position: 'relative',
-    flex-direction: 'column',
+    flexDirection: 'column',
     padding: '20px'}}>
     <img style={{display: 'block',
       marginLeft: 'auto',

@@ -16,11 +16,11 @@ function Welcome() {
     <div>
     <div class='container'>
     <div style={{display: 'flex',
-    justify-content: 'cente',
-    align-items: 'center',
+    justifyContent: 'cente',
+    alignItems: 'center',
     height: '100vh',
     position: 'relative',
-    flex-direction: 'column',
+    flexDirection: 'column',
     padding: '20px'}}>
           
       <div style={{
