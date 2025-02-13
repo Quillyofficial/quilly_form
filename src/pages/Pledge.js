@@ -1,105 +1,151 @@
-import React from 'react'
-import pin from '../images/pin.PNG'
-import { Typography } from '@mui/material'
-import { FormHelperText } from '@mui/material'
-import { Button } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
-import { TextField } from '@mui/material'
-import { useState } from 'react'
+import React, { useState, useEffect } from 'react';
+import { Typography, FormHelperText, Button, Box, TextField } from '@mui/material';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 
-function Pledge() {
-  const navigate = useNavigate();
-  function handleSubmit(e){
-    e.preventDefault();
-    navigate('/thanksAgain');
-  }
-
+export default function Pledge() {
+  const router = useRouter();
   const [name, setName] = useState("");
+  const [error, setError] = useState("");
+  const [storedName, setStoredName] = useState("");
 
+  useEffect(() => {
+    const firstName = localStorage.getItem('firstName');
+    const lastName = localStorage.getItem('lastName');
+    if (firstName && lastName) {
+      setStoredName(`${firstName} ${lastName}`);
+    }
+  }, []);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!name.trim()) {
+      setError("Please enter your full name");
+      return;
+    }
+    localStorage.setItem('pledgeName', name);
+    router.push('/thanksAgain');
+  };
 
   return (
-    <div>
-    <div class='container'>
-    <div style={{
-      position:'absolute', 
-      top:'100px',
-      bottom:'220px',
-      display:'flex',
-      flexDirection:'column',
-      alignItems:'center',
-      justifyContent:'center'}}>
-          
-      <div style={{
-        display:'flex',
-        flexDirection:'column',
-        alignItems:'center',
-        justifyContent:'center'
-        }}>
-        <img class="pledgeImg" src={pin} alt="pinImage"/>
-      </div>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        minHeight: '100vh',
+        position: 'relative',
+        padding: 3,
+        pt: { xs: '10vh', md: '8vh' }
+      }}
+    >
+      {/* Image Container */}
+      <Box
+        sx={{
+          position: 'relative',
+          width: '100%',
+          maxWidth: '400px',
+          height: '200px',
+          mb: 4
+        }}
+      >
+        <Image
+          src="/images/pin.png"
+          alt="Pin"
+          fill
+          style={{ objectFit: 'contain' }}
+          priority
+        />
+      </Box>
 
-
-      <div style={{
-        position:'absolute', 
-        top:'100px',
-        display:'flex',
-        flexDirection:'column',
-        alignItems:'center',
-        justifyContent:'center'
-        }}>
-
-        <div style={{ 
+      {/* Content Container */}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center', 
-        }}> 
-          <Typography variant='h5' sx={{ textAlign: 'left', marginBottom:'25px'}}>
-            Almost done! Read our pledge <br/>
-            and sign your name!
-          </Typography>
-        </div>
+          width: '100%',
+          maxWidth: '500px',
+          gap: 2
+        }}
+      >
+        <Typography 
+          variant="h5" 
+          sx={{ 
+            mb: 3,
+            textAlign: 'center'
+          }}
+        >
+          Almost done! Read our pledge <br/>
+          and sign your name!
+        </Typography>
 
-        <FormHelperText sx={{ 
-          textAlign: 'left', 
-          fontFamily:'sans-serif', 
-          lineHeight:'1.3', 
-          fontSize:'15px',
-          color:'black',
-          opacity:'0.7',
-          paddingRight:'15px',
-          marginBottom:'10px'}}>
-          I, _____________, pledge always to be inclusive and <br/>
-          empathetic. As a Quilly girl, I'm all in for making real <br/>
-          friendships.<br/>
-          I'll be honest and authentic--no gossip, no drama.<br/>
-          I'll cheer on my friends--without competing with or<br/>
-          undermining them.<br/>
-          I'll be there for my Quilly girls, through thick and thin.<br/>
-          I promise to bring my best energy to our activities and be a<br/>
-          reliable, involved member of our community.<br/>
-          Above all else, I promise to embody our core values of<br/>
-          compassion, loyalty, trust, and authenticity in every<br/>
+        <FormHelperText 
+          component="div" 
+          sx={{ 
+            fontFamily: 'sans-serif',
+            lineHeight: 1.3,
+            fontSize: '15px',
+            color: 'black',
+            opacity: 0.7,
+            mb: 1,
+            textAlign: 'center',
+            width: '100%'
+          }}
+        >
+          I,{' '}
+          <Box
+            component="span"
+            sx={{ 
+              fontWeight: 'bold',
+              opacity: 1
+            }}
+          >
+            {storedName || "_____________"}
+          </Box>
+          , pledge always to be inclusive and 
+          empathetic. As a Quilly girl, I'm all in for making real 
+          friendships.
+          I'll be honest and authentic--no gossip, no drama.
+          I'll cheer on my friends--without competing with or
+          undermining them.
+          I'll be there for my Quilly girls, through thick and thin.
+          I promise to bring my best energy to our activities and be a
+          reliable, involved member of our community.
+          Above all else, I promise to embody our core values of
+          compassion, loyalty, trust, and authenticity in every
           friendship I develop.
         </FormHelperText>
 
         <TextField
           variant="filled"
-          placeholder="First and Last name"
+          placeholder={storedName || "First and Last name"}
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => {
+            setName(e.target.value);
+            if (error) setError("");
+          }}
           fullWidth
-          size='small'
+          size="small"
+          error={!!error}
+          helperText={error}
           sx={{
-            backgroundColor: "#F5F5F5", 
+            backgroundColor: "#F5F5F5",
             borderRadius: "10px",
-            maxWidth:'400px',
-            margin: "20px auto",
-            input: { textAlign: "left", 
-              fontFamily:'sans-serif', 
-              fontSize:'15px'}
-        }}/>
+            width: '400px',
+            mt: 2,
+            mb: 2,
+            '& .MuiFilledInput-input': {
+              textAlign: 'justify',
+              fontFamily: 'sans-serif',
+              fontSize: '15px',
+	      lineHeight: '22px',
+            }
+          }}
+        />
 
-        <Button onClick={handleSubmit}
+        <Button
+          onClick={handleSubmit}
           sx={{
             backgroundColor: 'rgba(232, 226, 237, 1)',
             color: 'black',
@@ -108,24 +154,28 @@ function Pledge() {
             width: '400px',
             height: '50px',
             border: 1,
-            top: '20px'}}
-        > Continue ➤ </Button>
-      </div>
+            mt: 2,
+            '&:hover': {
+              backgroundColor: 'rgba(222, 216, 227, 1)',
+            }
+          }}
+        >
+          Continue ➤
+        </Button>
+      </Box>
 
-    </div>
-    </div>
-
-      <FormHelperText sx={{
-        textAlign: 'center',
-        position: 'absolute',
-        bottom: '0', 
-        width: '100%'
-      }}>
+      {/* Footer */}
+      <FormHelperText
+        sx={{
+          textAlign: 'center',
+          position: 'absolute',
+          bottom: 2,
+          width: '100%',
+          pb: 1
+        }}
+      >
         www.myquilly.com Terms of Use
       </FormHelperText>
-
-    </div>
-  )
+    </Box>
+  );
 }
-
-export default Pledge

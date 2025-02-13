@@ -1,103 +1,104 @@
-import React from 'react'
-import school from '../images/school.png'
-import { Typography, FormHelperText, Button } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import React from 'react';
+import { Button, Typography, Box, FormHelperText } from '@mui/material';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 
-function School() {
-  const navigate = useNavigate();
+export default function School() {
+  const router = useRouter();
 
-  function handleSubmitForNo(e) {  
-    e.preventDefault();      
-    navigate('/beNotified');
-  }
+  const handleSubmit = (answer) => {
+    if (answer === 'yes') {
+      router.push('/signup');
+    } else {
+      router.push('/beNotified');
+    }
+  };
 
-  function handleSubmitForYes(e) {  
-    e.preventDefault();      
-    navigate('/signUp');
-  }
-  
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        position: 'relative',
         flexDirection: 'column',
-        padding: '20px'
+        alignItems: 'center',
+        minHeight: '100vh',
+        position: 'relative',
+        padding: 3
       }}
     >
-      {/* Centered content */}
-      <div
-        style={{
+      <Box
+        sx={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
           textAlign: 'center',
+          flex: 1,
+          maxWidth: 'sm',
+          width: '100%'
         }}
       >
-        
         {/* Image container */}
-        <div
-          style={{
-            marginBottom: '30px',
-          }}
-        >
-          <img
-            src={school}
-            alt="schoolImage"
-            style={{
-              maxWidth: '100%',
-              height: 'auto',
-              maxHeight: '250px',
-            }}
+        <Box sx={{ mb: 4, position: 'relative', width: '100%', maxWidth: 300, height: 200 }}>
+          <Image
+            src="/images/school.png"
+            alt="School"
+            fill
+            style={{ objectFit: 'contain' }}
+            priority
           />
-        </div>
+        </Box>
 
-        {/* Text and buttons container */}
-        <div>
-          <Typography
-            variant='h5'
-            sx={{ textAlign: 'center', paddingBottom: '40px' }}
+        <Typography variant="h5" sx={{ mb: 4 }}>
+          Do you currently attend UC Berkeley?
+        </Typography>
+
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%', maxWidth: 400 }}>
+          <Button
+            onClick={() => handleSubmit('yes')}
+            sx={{
+              backgroundColor: 'rgba(232, 226, 237, 1)',
+              color: 'black',
+              fontWeight: 'bold',
+              borderRadius: '20px',
+              height: '50px',
+              border: 1,
+              '&:hover': {
+                backgroundColor: 'rgba(222, 216, 227, 1)',
+              }
+            }}
           >
-            Do you currently attend UC Berkeley?
-          </Typography>
+            Yes
+          </Button>
+          <Button
+            onClick={() => handleSubmit('no')}
+            sx={{
+              backgroundColor: 'rgba(232, 226, 237, 1)',
+              color: 'black',
+              fontWeight: 'bold',
+              borderRadius: '20px',
+              height: '50px',
+              border: 1,
+              '&:hover': {
+                backgroundColor: 'rgba(222, 216, 227, 1)',
+              }
+            }}
+          >
+            No
+          </Button>
+        </Box>
+      </Box>
 
-          
-        <FormHelperText sx={{ textAlign: 'center'}}>
-          Please choose an option
-        </FormHelperText>
-
-        <Button class='mcqButton' onClick={handleSubmitForYes}>
-          Yes
-        </Button>
-        <br></br>
-
-        <Button class='mcqButton' onClick={handleSubmitForNo}>
-          No
-        </Button>
-        </div>
-        
-      </div>
-
-      {/* Footer */}
       <FormHelperText
         sx={{
           textAlign: 'center',
           position: 'absolute',
-          bottom: '0',
+          bottom: 2,
           width: '100%',
-          fontSize: '12px',
-          color: 'gray',
+          pb: 1
         }}
       >
         www.myquilly.com Terms of Use
       </FormHelperText>
-    </div>
-  )
+    </Box>
+  );
 }
-
-export default School
-

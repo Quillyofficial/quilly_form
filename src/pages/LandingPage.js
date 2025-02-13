@@ -1,60 +1,76 @@
-import React from 'react'
-import Button from '@mui/material/Button'
-import { Typography } from '@mui/material'
-import { FormHelperText } from '@mui/material'
-import quillyTitle from '../images/quillyTitle.png'
-import { useNavigate } from 'react-router-dom'
+import React from 'react';
+import { Typography, FormHelperText, Button, Box } from '@mui/material';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 
-function LandingPage() {
-  const navigate = useNavigate();
-  function handleSubmit(e) {  
+export default function LandingPage() {
+  const router = useRouter();
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    navigate('/school');
-  }
+    router.push('/school');
+  };
 
   return (
-    <div style={{
-      position: 'relative',
-      height: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center'
-    }}>
-      <div style={{
+    <Box
+      sx={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
-        height: '100%',
-        textAlign: 'center'
-      }}>
-        {/* Title image */}
-        <div style={{
-          marginBottom: '20px'
-        }}>
-          <img 
-            className="quillyImg" 
-            src={quillyTitle} 
-            alt="quillyTitleImage" 
-            style={{
-              maxWidth: '100%',
-              height: 'auto',
-              marginBottom: '20px'
-            }} 
-          />
-        </div>
-
-        {/* Text and Button */}
-        <div style={{
+        minHeight: '100vh',
+        position: 'relative',
+        padding: 3
+      }}
+    >
+      {/* Main Content Container */}
+      <Box
+        sx={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          textAlign: 'center',
-          marginTop: '20px'
-        }}>
-          <Typography variant='h5' sx={{ textAlign: 'center' }}>
+          flex: 1,
+          width: '100%',
+          maxWidth: 'sm'
+        }}
+      >
+        {/* Image Container */}
+        <Box
+          sx={{
+            position: 'relative',
+            width: '100%',
+            maxWidth: '400px',
+            height: '250px',
+            mb: 4
+          }}
+        >
+          <Image
+            src="/images/quillyTitle.png"
+            alt="Quilly Title"
+            fill
+            style={{ objectFit: 'contain' }}
+            priority
+          />
+        </Box>
+
+        {/* Text and Button Container */}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 3,
+            width: '100%',
+            mt: 2
+          }}
+        >
+          <Typography 
+            variant="h5" 
+            sx={{ 
+              textAlign: 'center',
+              mb: 2
+            }}
+          >
             Real friends, not followers- <br />
             the girls you can call up, hang with, lean on.
           </Typography>
@@ -66,29 +82,32 @@ function LandingPage() {
               color: 'black',
               fontWeight: 'bold',
               borderRadius: '20px',
-              width: '400px',
+              width: '70%', // Changed from fixed width to 70%
               height: '50px',
               border: 1,
-              marginTop: '40px',
+              mt: 2,
+              '&:hover': {
+                backgroundColor: 'rgba(222, 216, 227, 1)',
+              }
             }}
           >
             Let's Start!
           </Button>
-        </div>
-      </div>
+        </Box>
+      </Box>
 
-      {/* Footer text */}
-      <FormHelperText sx={{
-        textAlign: 'center',
-        position: 'absolute',
-        bottom: '0',
-        width: '100%',
-        paddingBottom: '10px',
-      }}>
+      {/* Footer */}
+      <FormHelperText
+        sx={{
+          textAlign: 'center',
+          position: 'absolute',
+          bottom: 2,
+          width: '100%',
+          pb: 1
+        }}
+      >
         www.myquilly.com Terms of Use
       </FormHelperText>
-    </div>
+    </Box>
   );
 }
-
-export default LandingPage;

@@ -1,84 +1,110 @@
-import React from 'react'
-import Button from '@mui/material/Button'
-import { Typography } from '@mui/material'
-import { FormHelperText } from '@mui/material'
-import welcome from '../images/welcome.PNG'
-import { useNavigate } from 'react-router-dom'
+import React from 'react';
+import { Button, Typography, FormHelperText, Box } from '@mui/material';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 
-function Welcome() {
-  const navigate = useNavigate();
-  function handleSubmit(e){
+export default function Welcome() {
+  const router = useRouter();
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    navigate('/mcqOne');
-  }
+    router.push('/mcqOne');
+  };
 
   return (
-    <div style={{display: 'flex',
-    justifyContent: 'cente',
-    alignItems: 'center',
-    height: '100vh',
-    position: 'relative',
-    flexDirection: 'column',
-    padding: '20px'}}>
-          
-      <div style={{
-        display:'flex',
-        flexDirection:'column',
-        alignItems:'center',
-        justifyContent:'center'
-        }}>
-        <img class="otherImages" src={welcome} alt="welcomeImage"/>
-      </div>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh',
+        position: 'relative',
+        padding: 3
+      }}
+    >
+      {/* Image Container */}
+      <Box
+        sx={{
+          position: 'relative',
+          width: '100%',
+          maxWidth: '400px',
+          height: '300px',
+          mb: 4
+        }}
+      >
+        <Image
+          src="/images/welcome.png"
+          alt="Welcome"
+          fill
+          style={{ objectFit: 'contain' }}
+          priority
+        />
+      </Box>
 
-
-      <div style={{
-        top:'150px',
-        display:'flex',
-        flexDirection:'column',
-        alignItems:'center',
-        justifyContent:'center'
-        }}>
-
-        <div style={{ 
+      {/* Content Container */}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center', 
-        }}> 
-          <Typography variant='h5' sx={{ textAlign: 'center'}}>
-            Welcome! Let's get you started 
-          </Typography>
-        </div>
+          gap: 2,
+          maxWidth: 'sm',
+          width: '100%'
+        }}
+      >
+        <Typography 
+          variant="h5" 
+          sx={{ 
+            textAlign: 'center',
+            mb: 1
+          }}
+        >
+          Welcome! Let's get you started
+        </Typography>
 
-        <FormHelperText sx={{ textAlign: 'center'}}>
-          Let's hear abouy your activity preferences!
+        <FormHelperText 
+          sx={{ 
+            textAlign: 'center',
+            fontSize: '1rem',
+            mb: 2
+          }}
+        >
+          Let's hear about your activity preferences!
         </FormHelperText>
 
-        <Button onClick={handleSubmit}
+        <Button
+          onClick={handleSubmit}
           sx={{
             backgroundColor: 'rgba(232, 226, 237, 1)',
             color: 'black',
             fontWeight: 'bold',
             borderRadius: '20px',
-            width: '400px',
+            width: { xs: '100%', sm: '400px' },
             height: '50px',
             border: 1,
-            top: '40px'}}
+            mt: 2,
+            '&:hover': {
+              backgroundColor: 'rgba(222, 216, 227, 1)',
+            }
+          }}
         >
           Continue
         </Button>
-      </div>
+      </Box>
 
-
-      <FormHelperText sx={{
-        textAlign: 'center',
-        position: 'absolute',
-        bottom: '0', 
-        width: '100%'
-      }}>
+      {/* Footer */}
+      <FormHelperText
+        sx={{
+          textAlign: 'center',
+          position: 'absolute',
+          bottom: 2,
+          width: '100%',
+          pb: 1
+        }}
+      >
         www.myquilly.com Terms of Use
       </FormHelperText>
-
-    </div>
-  )
+    </Box>
+  );
 }
-
-export default Welcome

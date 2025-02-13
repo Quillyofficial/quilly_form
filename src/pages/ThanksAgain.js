@@ -1,92 +1,126 @@
-import React from 'react'
-import heart from '../images/heart.PNG'
-import { Typography } from '@mui/material'
-import { FormHelperText } from '@mui/material'
-import { Button } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import React from 'react';
+import { Typography, FormHelperText, Button, Box } from '@mui/material';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 
-function ThanksAgain() {
-  const navigate = useNavigate();
-  function handleSubmit(e){
+export default function ThanksAgain() {
+  const router = useRouter();
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    navigate('/kahloHouse');
-  }
+    router.push('/kahloHouse');
+  };
 
   return (
-    <div>
-    <div class='container'>
-    <div style={{
-      position:'absolute', 
-      top:'190px',
-      bottom:'120px',
-      display:'flex',
-      flexDirection:'column',
-      alignItems:'center',
-      justifyContent:'center'}}>
-          
-      <div style={{
-        display:'flex',
-        flexDirection:'column',
-        alignItems:'center',
-        justifyContent:'center'
-        }}>
-        <img class="otherImages" src={heart} alt="handHeartImage"/>
-      </div>
-
-
-      <div style={{
-        position:'absolute', 
-        top:'130px',
-        display:'flex',
-        flexDirection:'column',
-        alignItems:'center',
-        justifyContent:'center'
-        }}>
-
-        <div style={{ 
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        minHeight: '100vh',
+        position: 'relative',
+        padding: 3
+      }}
+    >
+      {/* Main Content Container */}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center', 
-        }}> 
-          <Typography variant='h5' sx={{ textAlign: 'center', marginBottom:'25px'}}>
-          Thank you for completing the questionnaire...exciting news,<br/>
-          we've found you the perfect community of like-minded <br/>
-          individuals.
-          </Typography>
-        </div>
-
-        <FormHelperText sx={{ textAlign: 'center'}}>
-          Welcome to...I can't wait...you ready? Okay fine, fine...
-        </FormHelperText>
-
-        <Button onClick={handleSubmit}
+          justifyContent: 'center',
+          flex: 1,
+          width: '100%',
+          maxWidth: 'sm',
+          mt: { xs: 4, md: 8 }
+        }}
+      >
+        {/* Image Container */}
+        <Box
           sx={{
-            backgroundColor: 'rgba(232, 226, 237, 1)',
-            color: 'black',
-            fontWeight: 'bold',
-            borderRadius: '20px',
-            width: '400px',
-            height: '50px',
-            border: 1,
-            top: '40px'}}
+            position: 'relative',
+            width: '100%',
+            maxWidth: '400px',
+            height: '250px',
+            mb: 4
+          }}
         >
-          Continue
-        </Button>
-      </div>
+          <Image
+            src="/images/heart.png"
+            alt="Hand Heart"
+            fill
+            style={{ objectFit: 'contain' }}
+            priority
+          />
+        </Box>
 
-    </div>
-    </div>
+        {/* Text and Button Container */}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 3,
+            width: '100%',
+            mt: 2
+          }}
+        >
+          <Typography 
+            variant="h5" 
+            sx={{ 
+              textAlign: 'center',
+              mb: 3,
+              lineHeight: 1.4
+            }}
+          >
+            Thank you for completing the questionnaire...exciting news,<br/>
+            we've found you the perfect community of like-minded <br/>
+            individuals.
+          </Typography>
 
-      <FormHelperText sx={{
-        textAlign: 'center',
-        position: 'absolute',
-        bottom: '0', 
-        width: '100%'
-      }}>
+          <FormHelperText 
+            sx={{ 
+              textAlign: 'center',
+              fontSize: '1rem',
+              mb: 2
+            }}
+          >
+            Welcome to...I can't wait...you ready? Okay fine, fine...
+          </FormHelperText>
+
+          <Button
+            onClick={handleSubmit}
+            sx={{
+              backgroundColor: 'rgba(232, 226, 237, 1)',
+              color: 'black',
+              fontWeight: 'bold',
+              borderRadius: '20px',
+              width: { xs: '100%', sm: '400px' },
+              height: '50px',
+              border: 1,
+              mt: 2,
+              '&:hover': {
+                backgroundColor: 'rgba(222, 216, 227, 1)',
+              }
+            }}
+          >
+            Continue
+          </Button>
+        </Box>
+      </Box>
+
+      {/* Footer */}
+      <FormHelperText
+        sx={{
+          textAlign: 'center',
+          position: 'absolute',
+          bottom: 2,
+          width: '100%',
+          pb: 1
+        }}
+      >
         www.myquilly.com Terms of Use
       </FormHelperText>
-
-    </div>
-  )
+    </Box>
+  );
 }
-
-export default ThanksAgain

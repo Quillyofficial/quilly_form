@@ -1,93 +1,126 @@
-import React from 'react'
-import music from '../images/music.PNG'
-import { Typography } from '@mui/material'
-import { FormHelperText } from '@mui/material'
-import { Button } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import React from 'react';
+import { Typography, FormHelperText, Button, Box } from '@mui/material';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 
-function StartingVibe() {
-  const navigate = useNavigate();
-  function handleSubmit(e){
+export default function StartingVibe() {
+  const router = useRouter();
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    navigate('/interests');
-  }
+    router.push('/interests');
+  };
 
   return (
-    <div>
-    <div class='container'>
-    <div style={{
-      position:'absolute', 
-      top:'195px',
-      bottom:'120px',
-      display:'flex',
-      flexDirection:'column',
-      alignItems:'center',
-      justifyContent:'center'}}>
-          
-      <div style={{
-        display:'flex',
-        flexDirection:'column',
-        alignItems:'center',
-        justifyContent:'center',
-        paddingRight:'20px'
-        }}>
-        <img class="musicImg" src={music} alt="recordPlayerImage"/>
-      </div>
-
-
-      <div style={{
-        position:'absolute', 
-        top:'150px',
-        display:'flex',
-        flexDirection:'column',
-        alignItems:'center',
-        justifyContent:'center'
-        }}>
-
-        <div style={{ 
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        minHeight: '100vh',
+        position: 'relative',
+        padding: 3
+      }}
+    >
+      {/* Main Content Container */}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center', 
-        }}> 
-          <Typography variant='h5' sx={{ textAlign: 'center'}}>
+          justifyContent: 'center',
+          flex: 1,
+          width: '100%',
+          maxWidth: 'sm',
+          mt: { xs: 4, md: 8 }
+        }}
+      >
+        {/* Image Container */}
+        <Box
+          sx={{
+            position: 'relative',
+            width: '100%',
+            maxWidth: '400px',
+            height: '250px',
+            mb: 4,
+            pr: 2.5 // equivalent to paddingRight: '20px'
+          }}
+        >
+          <Image
+            src="/images/music.png"
+            alt="Record Player"
+            fill
+            style={{ objectFit: 'contain' }}
+            priority
+          />
+        </Box>
+
+        {/* Text and Button Container */}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 3,
+            width: '100%',
+            mt: 2
+          }}
+        >
+          <Typography 
+            variant="h5" 
+            sx={{ 
+              textAlign: 'center',
+              lineHeight: 1.4
+            }}
+          >
             Starting to really get your vibe! <br/>
             I can see many fun weekends in the future...
           </Typography>
-        </div>
 
-        <FormHelperText sx={{ textAlign: 'center'}}>
-          Lastly, tell us a little about your thoughts <br/>
-          on friendship and your interests!
-        </FormHelperText>
+          <FormHelperText 
+            sx={{ 
+              textAlign: 'center',
+              fontSize: '1rem',
+              mb: 2
+            }}
+          >
+            Lastly, tell us a little about your thoughts <br/>
+            on friendship and your interests!
+          </FormHelperText>
 
-        <Button onClick={handleSubmit}
-          sx={{
-            backgroundColor: 'rgba(232, 226, 237, 1)',
-            color: 'black',
-            fontWeight: 'bold',
-            borderRadius: '20px',
-            width: '400px',
-            height: '50px',
-            border: 1,
-            top: '40px'}}
-        >
-          Continue
-        </Button>
-      </div>
+          <Button
+            onClick={handleSubmit}
+            sx={{
+              backgroundColor: 'rgba(232, 226, 237, 1)',
+              color: 'black',
+              fontWeight: 'bold',
+              borderRadius: '20px',
+              width: { xs: '100%', sm: '400px' },
+              height: '50px',
+              border: 1,
+              mt: 2,
+              '&:hover': {
+                backgroundColor: 'rgba(222, 216, 227, 1)',
+              }
+            }}
+          >
+            Continue
+          </Button>
+        </Box>
+      </Box>
 
-    </div>
-    </div>
-
-      <FormHelperText sx={{
-        textAlign: 'center',
-        position: 'absolute',
-        bottom: '0', 
-        width: '100%'
-      }}>
+      {/* Footer */}
+      <FormHelperText
+        sx={{
+          textAlign: 'center',
+          position: 'absolute',
+          bottom: 2,
+          width: '100%',
+          pb: 1
+        }}
+      >
         www.myquilly.com Terms of Use
       </FormHelperText>
-
-    </div>
-  )
+    </Box>
+  );
 }
-
-export default StartingVibe

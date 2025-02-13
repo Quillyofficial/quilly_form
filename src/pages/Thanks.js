@@ -1,92 +1,125 @@
-import React from 'react'
-import buddies from '../images/buddies.PNG'
-import { Typography } from '@mui/material'
-import { FormHelperText } from '@mui/material'
-import { Button } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import React from 'react';
+import { Typography, FormHelperText, Button, Box } from '@mui/material';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 
-function Thanks() {
-  const navigate = useNavigate();
-  function handleSubmit(e){
+export default function Thanks() {
+  const router = useRouter();
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    navigate('/pledge');
-  }
+    router.push('/pledge');
+  };
 
   return (
-    <div>
-    <div class='container'>
-    <div style={{
-      position:'absolute', 
-      top:'195px',
-      bottom:'120px',
-      display:'flex',
-      flexDirection:'column',
-      alignItems:'center',
-      justifyContent:'center'}}>
-          
-      <div style={{
-        display:'flex',
-        flexDirection:'column',
-        alignItems:'center',
-        justifyContent:'center'
-        }}>
-        <img class="otherImages" src={buddies} alt="huggingImage"/>
-      </div>
-
-
-      <div style={{
-        position:'absolute', 
-        top:'160px',
-        display:'flex',
-        flexDirection:'column',
-        alignItems:'center',
-        justifyContent:'center'
-        }}>
-
-        <div style={{ 
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        minHeight: '100vh',
+        position: 'relative',
+        padding: 3
+      }}
+    >
+      {/* Main Content Container */}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center', 
-        }}> 
-          <Typography variant='h5' sx={{ textAlign: 'center'}}>
-          Thanks girl! Wow! <br/>
-          I feel like we're besties already.
-          </Typography>
-        </div>
-
-        <FormHelperText sx={{ textAlign: 'center'}}>
-          Thanks for completing the questionnaire! <br/>
-          We just have one last thing for you to do, and then you're in!
-        </FormHelperText>
-
-        <Button onClick={handleSubmit}
+          justifyContent: 'center',
+          flex: 1,
+          width: '100%',
+          maxWidth: 'sm',
+          mt: { xs: 4, md: 8 }
+        }}
+      >
+        {/* Image Container */}
+        <Box
           sx={{
-            backgroundColor: 'rgba(232, 226, 237, 1)',
-            color: 'black',
-            fontWeight: 'bold',
-            borderRadius: '20px',
-            width: '400px',
-            height: '50px',
-            border: 1,
-            top: '40px'}}
+            position: 'relative',
+            width: '100%',
+            maxWidth: '400px',
+            height: '250px',
+            mb: 4
+          }}
         >
-          Continue
-        </Button>
-      </div>
+          <Image
+            src="/images/buddies.png"
+            alt="Hugging Friends"
+            fill
+            style={{ objectFit: 'contain' }}
+            priority
+          />
+        </Box>
 
-    </div>
-    </div>
+        {/* Text and Button Container */}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 3,
+            width: '100%',
+            mt: 2
+          }}
+        >
+          <Typography 
+            variant="h5" 
+            sx={{ 
+              textAlign: 'center',
+              lineHeight: 1.4
+            }}
+          >
+            Thanks girl! Wow! <br/>
+            I feel like we're besties already.
+          </Typography>
 
-      <FormHelperText sx={{
-        textAlign: 'center',
-        position: 'absolute',
-        bottom: '0', 
-        width: '100%'
-      }}>
+          <FormHelperText 
+            sx={{ 
+              textAlign: 'center',
+              fontSize: '1rem',
+              mb: 2
+            }}
+          >
+            Thanks for completing the questionnaire! <br/>
+            We just have one last thing for you to do, and then you're in!
+          </FormHelperText>
+
+          <Button
+            onClick={handleSubmit}
+            sx={{
+              backgroundColor: 'rgba(232, 226, 237, 1)',
+              color: 'black',
+              fontWeight: 'bold',
+              borderRadius: '20px',
+              width: { xs: '100%', sm: '400px' },
+              height: '50px',
+              border: 1,
+              mt: 2,
+              '&:hover': {
+                backgroundColor: 'rgba(222, 216, 227, 1)',
+              }
+            }}
+          >
+            Continue
+          </Button>
+        </Box>
+      </Box>
+
+      {/* Footer */}
+      <FormHelperText
+        sx={{
+          textAlign: 'center',
+          position: 'absolute',
+          bottom: 2,
+          width: '100%',
+          pb: 1
+        }}
+      >
         www.myquilly.com Terms of Use
       </FormHelperText>
-
-    </div>
-  )
+    </Box>
+  );
 }
-
-export default Thanks

@@ -1,113 +1,145 @@
-import React from 'react'
-import camp from '../images/camp.PNG'
-import { Typography } from '@mui/material'
-import { FormHelperText } from '@mui/material'
-import { Button } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import React, { useState } from 'react';
+import { Typography, FormHelperText, Button, Box } from '@mui/material';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 
-function MCQTwo() {
-  const navigate = useNavigate();
+export default function MCQTwo() {
+  const router = useRouter();
   const [selected, setSelected] = useState(0);
+
   const options = [
-    {id: 1, emoji: "😕", text:"Not at all. I know what I like."},
-    {id: 2, emoji: "💆‍♀️", text:"I like exploring within my comfort zone."},
-    {id: 3, emoji: "🙆‍♀️", text:"I'll try something once."},
-    {id: 4, emoji: "🎢", text:"The amazing race called me."}
+    {id: 1, emoji: "😕", text: "Not at all. I know what I like."},
+    {id: 2, emoji: "💆‍♀️", text: "I like exploring within my comfort zone."},
+    {id: 3, emoji: "🙆‍♀️", text: "I'll try something once."},
+    {id: 4, emoji: "🎢", text: "The amazing race called me."}
   ];
 
-  function handleSubmit(e) {  
-    e.preventDefault();      
-    navigate('/mcqThree');
-  }
+  const handleOptionClick = (optionId) => {
+    setSelected(optionId);
+    localStorage.setItem('mcqTwo', optionId);
+    router.push('/mcqThree');
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    router.push('/mcqThree');
+  };
 
   return (
-    <div>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        minHeight: '100vh',
+        position: 'relative',
+        padding: 3
+      }}
+    >
+      {/* Image Container */}
+      <Box
+        sx={{
+          position: 'relative',
+          width: '100%',
+          maxWidth: '400px',
+          height: '250px',
+          mb: 4,
+          mt: { xs: 2, md: 4 }
+        }}
+      >
+        <Image
+          src="/images/camp.png"
+          alt="Camp"
+          fill
+          style={{ objectFit: 'contain' }}
+          priority
+        />
+      </Box>
 
-    {/* Container for body of the page */}
-    <div class='container'> 
-      
-    <div style={{
-      position:'absolute', 
-      top:'140px',
-      bottom:'100px',
-      left: '0px',
-      display:'flex',
-      flexDirection:'column',
-      alignItems:'center',
-      justifyContent:'center'}}>
-
-      {/* Container for mcq image */}
-      <div style={{
-        display:'flex',
-        flexDirection:'column',
-        alignItems:'center',
-        justifyContent:'center'
-        }}>
-        <img class="mcqImage campImg" src={camp} alt="campImage"/>
-      </div>
-
-      {/* Container for text and buttons */}
-      <div style={{
-        position:'absolute', 
-        top:'110px',
-        display:'flex',
-        flexDirection:'column',
-        alignItems:'center',
-        justifyContent:'center'
-        }}>
-        
-        <Typography variant='h5' sx={{ textAlign: 'center', paddingBottom:'25px'}}>
+      {/* Content Container */}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          width: '100%',
+          maxWidth: 'sm',
+          gap: 2
+        }}
+      >
+        <Typography 
+          variant="h5" 
+          sx={{ 
+            textAlign: 'center',
+            mb: 2
+          }}
+        >
           How down for an adventure are you?
         </Typography>
 
-        <FormHelperText sx={{ textAlign: 'center'}}>
+        <FormHelperText 
+          sx={{ 
+            textAlign: 'center',
+            fontSize: '1rem',
+            mb: 2
+          }}
+        >
           Please choose an option
         </FormHelperText>
 
         {/* Options */}
-        { options.map((option) => (
-          <Button 
-            class={`mcqButton ${selected === option.id ? "option-selected" : "mcqButton"}`}
-            key={option.id}
-            onClick={()=> {
-              setSelected(option.id);
-              localStorage.setItem('mcqTwo', option.id);  
-              navigate('/mcqThree');
-
-            }}
-            >
-            <span>{option.emoji}</span> {option.text}
-          </Button>
-        ))}
-
-        <Button onClick={handleSubmit}
+        <Box
           sx={{
-            backgroundColor: 'rgba(232, 226, 237, 1)',
-            color: 'black',
-            fontWeight: 'bold',
-            borderRadius: '20px',
-            width: '400px',
-            height: '50px',
-            border: 1,
-            top: '30px'}}
-        > Continue ➤ </Button>
-        
-      </div>
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+            width: '100%',
+            maxWidth: { xs: '100%', sm: '400px' }
+          }}
+        >
+          {options.map((option) => (
+            <Button
+              key={option.id}
+              onClick={() => handleOptionClick(option.id)}
+              sx={{
+                backgroundColor: selected === option.id 
+                  ? 'rgba(212, 206, 217, 1)' 
+                  : 'rgba(232, 226, 237, 1)',
+                color: 'black',
+                fontWeight: 'bold',
+                borderRadius: '20px',
+                height: '50px',
+                border: 1,
+                textTransform: 'none',
+                '&:hover': {
+                  backgroundColor: 'rgba(222, 216, 227, 1)',
+                },
+                display: 'flex',
+                gap: 1,
+                justifyContent: 'flex-start',
+                padding: '0 20px'
+              }}
+            >
+              <span style={{ fontSize: '1.2rem' }}>{option.emoji}</span>
+              <span>{option.text}</span>
+            </Button>
+          ))}
 
-    </div>
-    </div>
-      <FormHelperText sx={{
-        textAlign: 'center',
-        position: 'absolute',
-        bottom: '0', 
-        width: '100%'
-        }}>
+        </Box>
+      </Box>
+
+      {/* Footer */}
+      <FormHelperText
+        sx={{
+          textAlign: 'center',
+          position: 'absolute',
+          bottom: 2,
+          width: '100%',
+          pb: 1
+        }}
+      >
         www.myquilly.com Terms of Use
       </FormHelperText>
-
-    </div>
-  )
+    </Box>
+  );
 }
-
-export default MCQTwo
