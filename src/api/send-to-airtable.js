@@ -1,6 +1,10 @@
 export default async function handler(req, res) {
-  // Allow CORS (Update to only allow specific domains)
-  res.setHeader("Access-Control-Allow-Origin", "https://quilly-form.myquilly.com");
+  const allowedOrigins = ["https://quilly-form.myquilly.com"];
+  const origin = req.headers.origin;
+
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
