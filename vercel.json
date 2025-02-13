@@ -1,19 +1,14 @@
 {
     "version": 2,
-    "builds": [
-        {
-            "src": "api/send-to-airtable.js",
-            "use": "@now/node"
-        }
-    ],
     "routes": [
-    	{
-            "src": "/",
-            "dest": "/pages/LandingPage"
-    	},
-        {
-            "src": "/api/send-to-airtable",
-            "dest": "api/send-to-airtable.js"
-        }
+      {
+        "src": "/",
+        "dest": "/src/pages/LandingPage"
+      },
+      {
+        "src": "/api/send-to-airtable",
+        "dest": "/src/api/send-to-airtable.js"
+      }
     ]
-}
+  }
+  
