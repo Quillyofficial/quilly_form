@@ -1,6 +1,10 @@
 {
     "version": 2,
     "builds": [
+        {
+            "src": "api/send-to-airtable.js",
+            "use": "@now/node"
+        }
     ],
     "routes": [
     	{
@@ -9,7 +13,7 @@
     	},
         {
             "src": "/api/send-to-airtable",
-            "dest": "src/pages/api/send-to-airtable.js"
+            "dest": "api/send-to-airtable.js"
         }
     ]
 }
