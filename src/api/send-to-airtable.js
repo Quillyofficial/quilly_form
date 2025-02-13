@@ -25,8 +25,8 @@ export default async function handler(req, res) {
 
     const data = await response.text();
 
-    // Ensure CORS headers are still present in the response
-    res.setHeader("Access-Control-Allow-Origin", "https://quilly-form.myquilly.com");
+    // // Ensure CORS headers are still present in the response
+    // res.setHeader("Access-Control-Allow-Origin", "https://quilly-form.myquilly.com");
 
     res.status(response.status).send(data);
   } catch (error) {

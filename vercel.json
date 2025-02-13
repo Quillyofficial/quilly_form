@@ -7,7 +7,11 @@
       },
       {
         "src": "/api/send-to-airtable",
-        "dest": "/src/api/send-to-airtable.js"
+        "dest": "/src/api/send-to-airtable.js",
+        "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+      "headers": {
+        "Access-Control-Allow-Origin": "*"
+      }
       }
     ]
   }
