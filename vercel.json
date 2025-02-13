@@ -6,6 +6,10 @@
     	{
             "src": "/",
             "dest": "/pages/LandingPage"
-    	}	
+    	},
+        {
+            "src": "/api/send-to-airtable",
+            "dest": "src/pages/api/send-to-airtable.js"
+        }
     ]
 }
