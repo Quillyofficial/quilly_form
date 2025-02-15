@@ -5,16 +5,19 @@ import signUp from '../images/signup.png'
 import { Typography } from '@mui/material' 
 import Button from '@mui/material/Button'
 import {Box}  from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+//import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/router'
 import { FormHelperText, Checkbox } from '@mui/material'
 
 import {Grid } from '@mui/material'
 
 function BeNotified() {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
+const router = useRouter();
   function handleOnClick(e) {  
     e.preventDefault();      
-    navigate('/notFromSchool');
+    //navigate('/notFromSchool');
+router.push('/target-route');
   }
 
   const [checked, setChecked] = useState(false);
