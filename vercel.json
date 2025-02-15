@@ -1,18 +1,13 @@
 {
-    "version": 2,
-    "routes": [
-      {
-        "src": "/",
-        "dest": "/src/pages/LandingPage"
-      },
-      {
-        "src": "/api/send-to-airtable",
-        "dest": "/src/api/send-to-airtable.js",
-        "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  "version": 2,
+  "routes": [
+    {
+      "src": "/api/send-to-airtable",
+      "dest": "/api/send-to-airtable.js",
+      "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
       "headers": {
         "Access-Control-Allow-Origin": "*"
       }
-      }
-    ]
-  }
-  
+    }
+  ]
+}
