@@ -11,14 +11,16 @@ export default function JoinDiscord() {
         'First Name': localStorage.getItem('firstName'),
         'Email': localStorage.getItem('email'),
         'Phone': localStorage.getItem('phone'),
-        'mcqOne': localStorage.getItem('mcqOne'),
-        'mcqTwo': localStorage.getItem('mcqTwo'),
-        'mcqThree': localStorage.getItem('mcqThree'),
-        'mcqFour': localStorage.getItem('mcqFour'),
-        'mcqFive': localStorage.getItem('mcqFive'),
-        'mcqSix': localStorage.getItem('mcqSix'),
-        'mcqSeven': localStorage.getItem('mcqSeven'),
-        'mcqEight': localStorage.getItem('mcqEight'),
+        'MCQ1': localStorage.getItem('mcqOne'),
+        'MCQ2': localStorage.getItem('mcqTwo'),
+        'MCQ3': localStorage.getItem('mcqThree'),
+        'MCQ4': localStorage.getItem('mcqFour'),
+        'MCQ5': localStorage.getItem('mcqFive'),
+        'MCQ6': localStorage.getItem('mcqSix'),
+        'MCQ7': localStorage.getItem('mcqSeven'),
+        'MCQ8': localStorage.getItem('mcqEight'),
+        'Interests': interests.join(', '),
+        'PledgeName': localStorage.getItem('pledgeName')
       };
 
       console.log('Sending data:', formData);
