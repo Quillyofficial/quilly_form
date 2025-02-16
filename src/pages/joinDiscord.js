@@ -6,6 +6,8 @@ export default function JoinDiscord() {
 
   const sendToBackend = async () => {
     try {
+      const interests = JSON.parse(localStorage.getItem('selectedInterests') || '[]');	
+
       const formData = {
         'Last Name': localStorage.getItem('lastName'),
         'First Name': localStorage.getItem('firstName'),
