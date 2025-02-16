@@ -2,47 +2,72 @@ import React from 'react';
 import { Typography, FormHelperText, Button, Box } from '@mui/material';
 
 export default function JoinDiscord() {
+
   const discordInviteLink = "https://discord.gg/WQHaVwQ24d";
 
-  const sendToBackend = async () => {
-    try {
+const sendToBackend = async () => {
+    try {   
+        // Get interests from localStorage
+        console.log('LocalStorage values:');
+        const interests = JSON.parse(localStorage.getItem('selectedInterests') || '[]');  
+          
+        // Prepare Airtable data
+        const formData = {
+            'Last Name': localStorage.getItem('lastName'),
+            'First Name': localStorage.getItem('firstName'),
+            'Email': localStorage.getItem('email'),
+            'Phone': localStorage.getItem('phone'),
+            'MCQ1': localStorage.getItem('mcqOne'),
+            'MCQ2': localStorage.getItem('mcqTwo'),
+            'MCQ3': localStorage.getItem('mcqThree'),
+            'MCQ4': localStorage.getItem('mcqFour'),
+            'MCQ5': localStorage.getItem('mcqFive'),
+            'MCQ6': localStorage.getItem('mcqSix'),
+            'MCQ7': localStorage.getItem('mcqSeven'),
+            'MCQ8': localStorage.getItem('mcqEight'),
+            'Interests': interests.join(', '),
+            'PledgeName': localStorage.getItem('pledgeName')
+        };  
+            
+        console.log('Sending data to Airtable:', formData);
+          
+        // Send to Airtable
+        const airtableResponse = await fetch("/api/send-to-airtable", {
+            method: "POST",
+            headers: { 
+                "Content-Type": "application/json",
+            },  
+            body: JSON.stringify(formData),
+        }); 
+            
+        const airtableData = await airtableResponse.text();
+        console.log("Airtable Response:", airtableData);
 
-console.log('LocalStorage values:');
-      const interests = JSON.parse(localStorage.getItem('selectedInterests') || '[]');	
+        // Send to Mailchimp
+        console.log('Sending data to Mailchimp');
+        const mailchimpResponse = await fetch("/api/subscribe-mailchimp", {
+            method: "POST",
+            headers: { 
+                "Content-Type": "application/json" 
+            },
+            body: JSON.stringify({
+                email: localStorage.getItem('email'),
+                firstName: localStorage.getItem('firstName'),
+                lastName: localStorage.getItem('lastName')
+            }),
+        });
 
-      const formData = {
-        'Last Name': localStorage.getItem('lastName'),
-        'First Name': localStorage.getItem('firstName'),
-        'Email': localStorage.getItem('email'),
-        'Phone': localStorage.getItem('phone'),
-        'MCQ1': localStorage.getItem('mcqOne'),
-        'MCQ2': localStorage.getItem('mcqTwo'),
-        'MCQ3': localStorage.getItem('mcqThree'),
-        'MCQ4': localStorage.getItem('mcqFour'),
-        'MCQ5': localStorage.getItem('mcqFive'),
-        'MCQ6': localStorage.getItem('mcqSix'),
-        'MCQ7': localStorage.getItem('mcqSeven'),
-        'MCQ8': localStorage.getItem('mcqEight'),
-        'Interests': interests.join(', '),
-        'PledgeName': localStorage.getItem('pledgeName')
-      };
+        if (!mailchimpResponse.ok) {
+            console.error('Error subscribing to newsletter');
+        } else {
+            const mailchimpData = await mailchimpResponse.json();
+            console.log("Mailchimp Response:", mailchimpData);
+        }
 
-      console.log('Sending data:', formData);
-
-      const response = await fetch("/api/send-to-airtable", {  // This is the correct Next.js API route path
-   	method: "POST",
-  	headers: {
-    	"Content-Type": "application/json",
-  	},
-  	body: JSON.stringify(formData),
-	});
-
-      const data = await response.text();
-      console.log("Airtable Response:", data);
     } catch (error) {
-      console.error("Error:", error);
-    }
-  };
+        console.error("Error:", error);
+    }     
+};
 
   return (
     <Box

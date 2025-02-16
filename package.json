@@ -9,6 +9,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@mailchimp/mailchimp_marketing": "^3.0.80",
     "@mui/material": "^6.4.4",
     "airtable": "^0.12.2",
     "ajv": "^8.17.1",
