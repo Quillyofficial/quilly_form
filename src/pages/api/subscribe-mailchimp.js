@@ -3,10 +3,10 @@ import mailchimp from '@mailchimp/mailchimp_marketing';
 export default async function handler(req, res) {
   // Add debug logging for environment variables with exact names
   console.log('Environment Variables Status:', {
-    'MAILCHIMP_API_KEY': process.env.NEXT_PUBLIC_MAILCHIMP_API_KEY || 'missing',
-    'MAILCHIMP_LIST_ID': process.env.NEXT_PUBLIC_MAILCHIMP_LIST_ID || 'missing',
-    'MAILCHIMP_SERVER_PREFIX': process.env.NEXT_PUBLIC_MAILCHIMP_SERVER_PREFIX || 'missing',
-    'MAILCHIMP_CAMPAIGN_ID': process.env.NEXT_PUBLIC_MAILCHIMP_CAMPAIGN_ID || 'missing'
+    'MAILCHIMP_API_KEY': process.env.REACT_APP_MAILCHIMP_API_KEY || 'missing',
+    'MAILCHIMP_LIST_ID': process.env.REACT_APP_MAILCHIMP_LIST_ID || 'missing',
+    'MAILCHIMP_SERVER_PREFIX': process.env.REACT_APP_MAILCHIMP_SERVER_PREFIX || 'missing',
+    'MAILCHIMP_CAMPAIGN_ID': process.env.REACT_APP_MAILCHIMP_CAMPAIGN_ID || 'missing'
   });
 
   // Set CORS headers
@@ -24,27 +24,27 @@ export default async function handler(req, res) {
 
   try {
     // Check if all required environment variables are present
-    if (!process.env.NEXT_PUBLIC_MAILCHIMP_API_KEY) {
+    if (!process.env.REACT_APP_MAILCHIMP_API_KEY) {
       throw new Error('MAILCHIMP_API_KEY is missing');
     }
-    if (!process.env.NEXT_PUBLIC_MAILCHIMP_SERVER_PREFIX) {
+    if (!process.env.REACT_APP_MAILCHIMP_SERVER_PREFIX) {
       throw new Error('MAILCHIMP_SERVER_PREFIX is missing');
     }
-    if (!process.env.NEXT_PUBLIC_MAILCHIMP_LIST_ID) {
+    if (!process.env.REACT_APP_MAILCHIMP_LIST_ID) {
       throw new Error('MAILCHIMP_LIST_ID is missing');
     }
 
     // Configure Mailchimp with exact environment variable names
     mailchimp.setConfig({
-      apiKey: process.env.NEXT_PUBLIC_MAILCHIMP_API_KEY,
-      server: process.env.NEXT_PUBLIC_MAILCHIMP_SERVER_PREFIX
+      apiKey: process.env.REACT_APP_MAILCHIMP_API_KEY,
+      server: process.env.REACT_APP_MAILCHIMP_SERVER_PREFIX
     });
 
     const { email, firstName, lastName } = req.body;
 
     // Add member to list using exact environment variable name
     const addSubscriberResponse = await mailchimp.lists.addListMember(
-      process.env.NEXT_PUBLIC_MAILCHIMP_LIST_ID,
+      process.env.REACT_APP_MAILCHIMP_LIST_ID,
       {
         email_address: email,
         status: 'subscribed',
@@ -56,7 +56,7 @@ export default async function handler(req, res) {
     );
 
     // Send campaign using exact environment variable name
-    if (process.env.NEXT_PUBLIC_MAILCHIMP_CAMPAIGN_ID) {
+    if (process.env. REACT_APP_MAILCHIMP_CAMPAIGN_ID) {
       await mailchimp.campaigns.send(process.env.NEXT_PUBLIC_MAILCHIMP_CAMPAIGN_ID);
     }
 
