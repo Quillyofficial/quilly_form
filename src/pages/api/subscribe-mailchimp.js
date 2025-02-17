@@ -36,7 +36,7 @@ export default async function handler(req, res) {
 
     // Configure Mailchimp with exact environment variable names
     mailchimp.setConfig({
-      apiKey: '313ee76b5032ca59136340c5c63c726b-us22',
+      apiKey: '91bdfeda8cb910b36d5c518ab22999ec-us22',
       server: 'us22'
     });
 
