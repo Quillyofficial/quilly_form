@@ -26,7 +26,7 @@ export default async function handler(req, res) {
    // if (!process.env.REACT_APP_MAILCHIMP_LIST_ID) {
    //   throw new Error('MAILCHIMP_LIST_ID is missing');
   //  }
-
+ 
     // Log configuration
     console.log('Attempting Mailchimp operation with:', {
       listId: '4bca6a5a1d',
