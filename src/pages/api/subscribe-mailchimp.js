@@ -44,7 +44,7 @@ export default async function handler(req, res) {
     );
 
     if (process.env.mailchimp_campaign_id) {
-      await mailchimp.campaigns.send(process.env.NEXT_PUBLIC_MAILCHIMP_CAMPAIGN_ID;
+      await mailchimp.campaigns.send(process.env.NEXT_PUBLIC_MAILCHIMP_CAMPAIGN_ID);
     }
 
     console.log('Successfully processed Mailchimp actions');
