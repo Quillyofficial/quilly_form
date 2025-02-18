@@ -5,6 +5,11 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
+const accessKey = process.env.NEXT_PUBLIC_MAILCHIMP_API_KEY;
+
+console.log(accessKey);
+return;
+
   if (req.method === "OPTIONS") {
     return res.status(200).end();
   }
