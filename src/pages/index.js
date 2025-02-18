@@ -7,22 +7,6 @@ import { useRouter } from 'next/router';
 export default function LandingPage() {
   const router = useRouter();
 
-  console.log('Environment vairiables status:', JSON.stringify(process.env, null, 2));
-
-console.log('All environment variables:');
-Object.entries(process.env).forEach(([key, value]) => {
-    console.log(`${key}: ${value}`);
-});
-
-  console.log(process.env); 
-
-  console.log('Environment Variables Status:', {
-    'API_KEY': process.env.NEXT_PUBLIC_MAILCHIMP_API_KEY || 'missing',
-    'LIST_ID': process.env.NEXT_PUBLIC_MAILCHIMP_LIST_ID || 'missing',
-    'SERVER_PREFIX': process.env.NEXT_PUBLIC_MAILCHIMP_SERVER_PREFIX || 'missing',
-    'CAMPAIGN_ID': process.env.NEXT_PUBLIC_MAILCHIMP_CAMPAIGN_ID || 'missing'
-  });
-
   const handleSubmit = (e) => {
     e.preventDefault();
     router.push('/school');
