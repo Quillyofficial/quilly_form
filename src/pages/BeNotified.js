@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { Typography, FormHelperText, Button, Box, TextField } from '@mui/material';
+import { 
+  TextField, 
+  Typography, 
+  Button, 
+  Box, 
+  FormHelperText, 
+  Grid 
+} from '@mui/material';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
@@ -11,9 +18,14 @@ export default function BeNotified() {
     email: "",
     phone: ""
   });
-  const [errors, setErrors] = useState({});
 
-  // Validation functions
+  const [errors, setErrors] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: ""
+  });
+
   const validateEmail = (email) => {
     const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     return regex.test(email);
@@ -58,58 +70,66 @@ export default function BeNotified() {
     return isValid;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (!validateForm()) {
-      return;
-    }
-
-    try {
-      // Prepare data for Airtable
-      const airtableData = {
-        'First Name': formData.firstName,
-        'Last Name': formData.lastName,
-        'Email': formData.email,
-        'Phone': formData.phone,
-        'Type': 'Non-Berkeley Student' // Add this to differentiate from regular signups
-      };
-
-      console.log('Sending data to Airtable:', airtableData);
-      
-      // Send to Airtable
-      const response = await fetch("/api/send-to-airtable", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(airtableData),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to save to Airtable');
-      }
-
-      // Navigate to thank you page or next step
-      router.push('/thanksNotify');
-    } catch (error) {
-      console.error('Error saving data:', error);
-      setErrors({ submit: 'Failed to save your information. Please try again.' });
-    }
-  };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
-    // Clear error when user starts typing
+
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
         [name]: ""
       }));
+    }
+  };
+
+  const handlePhone = (e) => {
+    let value = e.target.value.replace(/[^0-9]/g, '');
+    if (value.length > 10) value = value.slice(0, 10);
+    
+    setFormData(prev => ({
+      ...prev,
+      phone: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (validateForm()) {
+      try {
+        // Prepare data for Airtable
+        const airtableData = {
+          'First Name': formData.firstName,
+          'Last Name': formData.lastName,
+          'Email': formData.email,
+          'Phone': formData.phone,
+          'Type': 'Non-Berkeley Student'
+        };
+
+        // Send to Airtable
+        const response = await fetch("/api/send-to-airtable", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(airtableData),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to save to Airtable');
+        }
+
+        router.push('/thanksNotified');
+      } catch (error) {
+        console.error('Error saving data:', error);
+        setErrors(prev => ({
+          ...prev,
+          submit: 'Failed to save your information. Please try again.'
+        }));
+      }
     }
   };
 
@@ -124,115 +144,122 @@ export default function BeNotified() {
         padding: 3
       }}
     >
-      {/* Content Container */}
+      {/* Image Container */}
       <Box
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+          position: 'relative',
           width: '100%',
-          maxWidth: 'sm',
-          gap: 2,
-          mt: 4
+          maxWidth: '350px',
+          height: '200px',
+          mb: 4,
+          mt: { xs: 2, md: 4 }
         }}
       >
-        <Typography 
-          variant="h5" 
+        <Image
+          src="/images/signup.png"
+          alt="Sign Up"
+          fill
+          style={{ objectFit: 'contain' }}
+          priority
+        />
+      </Box>
+
+      <Typography variant="h5" sx={{ textAlign: 'center', mb: 4 }}>
+        Be notified when Quilly launches on your campus!
+      </Typography>
+
+      {/* Form Container */}
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{
+          width: '100%',
+          maxWidth: '600px',
+          mx: 'auto',
+        }}
+      >
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <TextField 
+              name="firstName"
+              label="First Name"
+              variant="outlined" 
+              fullWidth 
+              required
+              value={formData.firstName}
+              onChange={handleChange}
+              error={!!errors.firstName}
+              helperText={errors.firstName}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField 
+              name="lastName"
+              label="Last Name"
+              variant="outlined"
+              fullWidth
+              required
+              value={formData.lastName}
+              onChange={handleChange}
+              error={!!errors.lastName}
+              helperText={errors.lastName}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField 
+              name="email"
+              label="Email Address"
+              variant="outlined"
+              fullWidth
+              required
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              error={!!errors.email}
+              helperText={errors.email}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              name="phone"
+              label="Phone Number"
+              variant="outlined"
+              fullWidth
+              required
+              value={formData.phone}
+              onChange={handlePhone}
+              error={!!errors.phone}
+              helperText={errors.phone}
+              inputProps={{ maxLength: 10 }}
+              placeholder="1234567890"
+            />
+          </Grid>
+        </Grid>
+
+        {errors.submit && (
+          <Typography color="error" sx={{ mt: 2, textAlign: 'center' }}>
+            {errors.submit}
+          </Typography>
+        )}
+
+        <Button
+          type="submit"
+          fullWidth
           sx={{ 
-            textAlign: 'center',
-            mb: 2
+            backgroundColor: 'rgba(232, 226, 237, 1)',
+            color: 'black',
+            fontWeight: 'bold',
+            borderRadius: '20px',
+            height: '50px',
+            border: 1,
+            mt: 2,
+            '&:hover': {
+              backgroundColor: 'rgba(222, 216, 227, 1)',
+            }
           }}
         >
-          We'll let you know when Quilly comes to your campus!
-        </Typography>
-
-        {/* Form */}
-        <Box
-          component="form"
-          onSubmit={handleSubmit}
-          sx={{
-            width: '100%',
-            maxWidth: '400px',
-            mt: 2
-          }}
-        >
-          <TextField
-            name="firstName"
-            label="First Name"
-            variant="outlined"
-            fullWidth
-            required
-            value={formData.firstName}
-            onChange={handleChange}
-            error={!!errors.firstName}
-            helperText={errors.firstName}
-            sx={{ mb: 2 }}
-          />
-
-          <TextField
-            name="lastName"
-            label="Last Name"
-            variant="outlined"
-            fullWidth
-            required
-            value={formData.lastName}
-            onChange={handleChange}
-            error={!!errors.lastName}
-            helperText={errors.lastName}
-            sx={{ mb: 2 }}
-          />
-
-          <TextField
-            name="email"
-            label="Email Address"
-            variant="outlined"
-            fullWidth
-            required
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
-            error={!!errors.email}
-            helperText={errors.email}
-            sx={{ mb: 2 }}
-          />
-
-          <TextField
-            name="phone"
-            label="Phone Number"
-            variant="outlined"
-            fullWidth
-            required
-            value={formData.phone}
-            onChange={handleChange}
-            error={!!errors.phone}
-            helperText={errors.phone}
-            sx={{ mb: 3 }}
-          />
-
-          {errors.submit && (
-            <Typography color="error" sx={{ mb: 2 }}>
-              {errors.submit}
-            </Typography>
-          )}
-
-          <Button
-            type="submit"
-            fullWidth
-            sx={{
-              backgroundColor: 'rgba(232, 226, 237, 1)',
-              color: 'black',
-              fontWeight: 'bold',
-              borderRadius: '20px',
-              height: '50px',
-              border: 1,
-              '&:hover': {
-                backgroundColor: 'rgba(222, 216, 227, 1)',
-              }
-            }}
-          >
-            Submit
-          </Button>
-        </Box>
+          Submit
+        </Button>
       </Box>
 
       {/* Footer */}
@@ -241,8 +268,7 @@ export default function BeNotified() {
           textAlign: 'center',
           position: 'absolute',
           bottom: 2,
-          width: '100%',
-          pb: 1
+          width: '100%'
         }}
       >
         www.myquilly.com Terms of Use
