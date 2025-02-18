@@ -1,14 +1,14 @@
 import React from 'react';
-import { Button, Typography, FormHelperText, Box } from '@mui/material';
+import { Typography, FormHelperText, Button, Box } from '@mui/material';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-export default function Welcome() {
+export default function Thanks() {
   const router = useRouter();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    router.push('/mcqOne');
+    router.push('/pledge');
   };
 
   return (
@@ -17,62 +17,94 @@ export default function Welcome() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
         minHeight: '100vh',
         position: 'relative',
         padding: 3
       }}
     >
-      {/* Image Container */}
-      <Box
-        sx={{
-          position: 'relative',
-          width: '100%',
-          maxWidth: '400px',
-          height: '300px',
-          mb: 4
-        }}
-      >
-        <Image
-          src="/images/star_non.png"
-          alt="Welcome"
-          fill
-          style={{ objectFit: 'contain' }}
-          priority
-        />
-      </Box>
-
-      {/* Content Container */}
+      {/* Main Content Container */}
       <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: 2,
+          justifyContent: 'center',
+          flex: 1,
+          width: '100%',
           maxWidth: 'sm',
-          width: '100%'
+          mt: { xs: 4, md: 8 }
         }}
       >
-        <Typography 
-          variant="h5" 
-          sx={{ 
-            textAlign: 'center',
-            mb: 1
+        {/* Image Container */}
+        <Box
+          sx={{
+            position: 'relative',
+            width: '100%',
+            maxWidth: '400px',
+            height: '250px',
+            mb: 4
           }}
         >
-          Welcome! Let's get you started
-        </Typography>
+          <Image
+            src="/images/buddies.png"
+            alt="Hugging Friends"
+            fill
+            style={{ objectFit: 'contain' }}
+            priority
+          />
+        </Box>
 
-        <FormHelperText 
-          sx={{ 
-            textAlign: 'center',
-            fontSize: '1rem',
-            mb: 2
+        {/* Text and Button Container */}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 3,
+            width: '100%',
+            mt: 2
           }}
         >
-          Let's hear about your activity preferences!
-        </FormHelperText>
+          <Typography 
+            variant="h5" 
+            sx={{ 
+              textAlign: 'center',
+              lineHeight: 1.4
+            }}
+          >
+            So excited you want to join the Quilly community! <br/>
+            Don’t worry girl we will touch base soon.
+          </Typography>
 
+          <FormHelperText 
+            sx={{ 
+              textAlign: 'center',
+              fontSize: '1rem',
+              mb: 2
+            }}
+          >
+            Thanks for letting us know where Quilly should go next! <br/>
+          </FormHelperText>
+
+          <Button
+            onClick={handleSubmit}
+            sx={{
+              backgroundColor: 'rgba(232, 226, 237, 1)',
+              color: 'black',
+              fontWeight: 'bold',
+              borderRadius: '20px',
+              width: { xs: '100%', sm: '400px' },
+              height: '50px',
+              border: 1,
+              mt: 2,
+              '&:hover': {
+                backgroundColor: 'rgba(222, 216, 227, 1)',
+              }
+            }}
+          >
+            Continue
+          </Button>
+        </Box>
       </Box>
 
       {/* Footer */}
