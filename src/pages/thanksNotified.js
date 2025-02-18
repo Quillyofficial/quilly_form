@@ -34,7 +34,7 @@ export default function Welcome() {
         }}
       >
         <Image
-          src="/images/welcome.png"
+          src="/images/star_non.png"
           alt="Welcome"
           fill
           style={{ objectFit: 'contain' }}
