@@ -2,72 +2,11 @@ import React from 'react';
 import { Typography, FormHelperText, Button, Box } from '@mui/material';
 
 export default function JoinDiscord() {
-
   const discordInviteLink = "https://discord.gg/WQHaVwQ24d";
 
-const sendToBackend = async () => {
-    try {   
-        // Get interests from localStorage
-        console.log('LocalStorage values:');
-        const interests = JSON.parse(localStorage.getItem('selectedInterests') || '[]');  
-          
-        // Prepare Airtable data
-        const formData = {
-            'Last Name': localStorage.getItem('lastName'),
-            'First Name': localStorage.getItem('firstName'),
-            'Email': localStorage.getItem('email'),
-            'Phone': localStorage.getItem('phone'),
-            'MCQ1': localStorage.getItem('mcqOne'),
-            'MCQ2': localStorage.getItem('mcqTwo'),
-            'MCQ3': localStorage.getItem('mcqThree'),
-            'MCQ4': localStorage.getItem('mcqFour'),
-            'MCQ5': localStorage.getItem('mcqFive'),
-            'MCQ6': localStorage.getItem('mcqSix'),
-            'MCQ7': localStorage.getItem('mcqSeven'),
-            'MCQ8': localStorage.getItem('mcqEight'),
-            'Interests': interests.join(', '),
-            'PledgeName': localStorage.getItem('pledgeName')
-        };  
-            
-        console.log('Sending data to Airtable:', formData);
-          
-        // Send to Airtable
-        const airtableResponse = await fetch("/api/send-to-airtable", {
-            method: "POST",
-            headers: { 
-                "Content-Type": "application/json",
-            },  
-            body: JSON.stringify(formData),
-        }); 
-            
-        const airtableData = await airtableResponse.text();
-        console.log("Airtable Response:", airtableData);
-
-        // Send to Mailchimp
-        console.log('Sending data to Mailchimp');
-        const mailchimpResponse = await fetch("/api/subscribe-mailchimp", {
-            method: "POST",
-            headers: { 
-                "Content-Type": "application/json" 
-            },
-            body: JSON.stringify({
-                email: localStorage.getItem('email'),
-                firstName: localStorage.getItem('firstName'),
-                lastName: localStorage.getItem('lastName')
-            }),
-        });
-
-        if (!mailchimpResponse.ok) {
-            console.error('Error subscribing to newsletter');
-        } else {
-            const mailchimpData = await mailchimpResponse.json();
-            console.log("Mailchimp Response:", mailchimpData);
-        }
-
-    } catch (error) {
-        console.error("Error:", error);
-    }     
-};
+  const handleJoinDiscord = () => {
+    window.open(discordInviteLink, "_blank");
+  };
 
   return (
     <Box
@@ -151,10 +90,7 @@ const sendToBackend = async () => {
         </FormHelperText>
 
         <Button
-          onClick={() => {
-            window.open(discordInviteLink, "_blank");
-            sendToBackend();
-          }}
+          onClick={handleJoinDiscord}
           sx={{
             backgroundColor: 'rgba(232, 226, 237, 1)',
             color: 'black',

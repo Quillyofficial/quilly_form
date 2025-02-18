@@ -6,9 +6,67 @@ import { useRouter } from 'next/router';
 export default function KahloHouse() {
   const router = useRouter();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    router.push('/joinDiscord');
+    
+    try {
+      // Get stored data
+      const interests = JSON.parse(localStorage.getItem('selectedInterests') || '[]');
+      
+      // Prepare data for Airtable
+      const formData = {
+        'Last Name': localStorage.getItem('lastName'),
+        'First Name': localStorage.getItem('firstName'),
+        'Email': localStorage.getItem('email'),
+        'Phone': localStorage.getItem('phone'),
+        'MCQ1': localStorage.getItem('mcqOne'),
+        'MCQ2': localStorage.getItem('mcqTwo'),
+        'MCQ3': localStorage.getItem('mcqThree'),
+        'MCQ4': localStorage.getItem('mcqFour'),
+        'MCQ5': localStorage.getItem('mcqFive'),
+        'MCQ6': localStorage.getItem('mcqSix'),
+        'MCQ7': localStorage.getItem('mcqSeven'),
+        'MCQ8': localStorage.getItem('mcqEight'),
+        'Interests': interests.join(', '),
+        'PledgeName': localStorage.getItem('pledgeName')
+      };
+
+      // Send to Airtable
+      console.log('Sending data to Airtable:', formData);
+      const airtableResponse = await fetch("/api/send-to-airtable", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!airtableResponse.ok) {
+        throw new Error('Airtable submission failed');
+      }
+
+      // Send to Mailchimp
+      const mailchimpData = {
+        email: localStorage.getItem('email'),
+        firstName: localStorage.getItem('firstName'),
+        lastName: localStorage.getItem('lastName')
+      };
+
+      console.log('Sending data to Mailchimp:', mailchimpData);
+      const mailchimpResponse = await fetch("/api/subscribe-mailchimp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(mailchimpData),
+      });
+
+      if (!mailchimpResponse.ok) {
+        console.error('Mailchimp subscription failed');
+      }
+
+      // Navigate to next page
+      router.push('/joinDiscord');
+    } catch (error) {
+      console.error('Error:', error);
+      // You might want to show an error message to the user here
+    }
   };
 
   return (
@@ -19,8 +77,7 @@ export default function KahloHouse() {
         alignItems: 'center',
         minHeight: '100vh',
         position: 'relative',
-        padding: 3,
-        pt: { xs: '15vh', md: '10vh' }
+        padding: 3
       }}
     >
       {/* Image Container */}
@@ -53,12 +110,7 @@ export default function KahloHouse() {
           gap: 2
         }}
       >
-        <Typography 
-          variant="h5" 
-          sx={{ 
-            textAlign: 'center'
-          }}
-        >
+        <Typography variant="h5" sx={{ textAlign: 'center' }}>
           Congrats! You've joined the
         </Typography>
 
