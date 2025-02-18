@@ -56,7 +56,7 @@ export default async function handler(req, res) {
 
     // Then try sending the campaign separately
     try {
-      await mailchimp.campaigns.send(process.env.MAILCHIMP_CAMPAIGN_ID);
+      await mailchimp.campaigns.send('33903');
       console.log('Successfully sent campaign');
     } catch (campaignError) {
       console.error('Campaign error:', campaignError.message);
@@ -69,8 +69,8 @@ export default async function handler(req, res) {
       message: error.message,
       type: error.type,
       path: error.path,
-      listId: process.env.MAILCHIMP_LIST_ID,
-      campaignId: process.env.MAILCHIMP_CAMPAIGN_ID
+      listId: '4bca6a5a1d',
+      campaignId: '33903'
     });
     
     return res.status(500).json({
