@@ -71,7 +71,7 @@ export default async function handler(req, res) {
           
           // Try to send campaign
           try {
-            await mailchimp.campaigns.send(process.env.MAILCHIMP_CAMPAIGN_ID);
+            await mailchimp.campaigns.send(process.env.NEXT_PUBLIC_MAILCHIMP_CAMPAIGN_ID);
             console.log('Campaign sent successfully');
           } catch (campaignError) {
             console.error('Campaign error:', campaignError.message);
