@@ -1,13 +1,6 @@
 import mailchimp from '@mailchimp/mailchimp_marketing';
 
 export default async function handler(req, res) {
-  // Add debug logging for environment variables with exact names
-  console.log('Environment Variables Status:', {
-    'MAILCHIMP_API_KEY': process.env.MAILCHIMP_API_KEY || 'missing',
-    'MAILCHIMP_LIST_ID': process.env.MAILCHIMP_LIST_ID || 'missing',
-    'MAILCHIMP_SERVER_PREFIX': process.env.MAILCHIMP_SERVER_PREFIX || 'missing',
-    'MAILCHIMP_CAMPAIGN_ID': process.env.MAILCHIMP_CAMPAIGN_ID || 'missing'
-  });
 
   // Set CORS headers
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -34,6 +27,12 @@ export default async function handler(req, res) {
    //   throw new Error('MAILCHIMP_LIST_ID is missing');
   //  }
 
+    // Log configuration
+    console.log('Attempting Mailchimp operation with:', {
+      listId: '4bca6a5a1d',
+      campaignId: '33903'
+    });
+
     // Configure Mailchimp with exact environment variable names
     mailchimp.setConfig({
       apiKey: '91bdfeda8cb910b36d5c518ab22999ec-us22',
@@ -55,15 +54,25 @@ export default async function handler(req, res) {
       }
     );
 
-    // Send campaign using exact environment variable name
-    if (true) {
-      await mailchimp.campaigns.send(33903);
+    // Then try sending the campaign separately
+    try {
+      await mailchimp.campaigns.send(process.env.MAILCHIMP_CAMPAIGN_ID);
+      console.log('Successfully sent campaign');
+    } catch (campaignError) {
+      console.error('Campaign error:', campaignError.message);
+      // Don't throw the error, just log it
     }
 
-    console.log('Successfully processed Mailchimp actions');
     return res.status(200).json({ success: true });
-  } catch (error) {
-    console.error('Mailchimp error:', error.message);
+} catch (error) {
+    console.error('Detailed error:', {
+      message: error.message,
+      type: error.type,
+      path: error.path,
+      listId: process.env.MAILCHIMP_LIST_ID,
+      campaignId: process.env.MAILCHIMP_CAMPAIGN_ID
+    });
+    
     return res.status(500).json({
       error: 'Error processing Mailchimp actions',
       details: error.message
