@@ -1,10 +1,18 @@
 import mailchimp from '@mailchimp/mailchimp_marketing';
 
 export default async function handler(req, res) {
+  // Debug logging with new variable names
+  console.log('Environment Variables Status:', {
+    'API_KEY': process.env.NEXT_PUBLIC_MAILCHIMP_API_KEY || 'missing',
+    'LIST_ID': process.env.NEXT_PUBLIC_MAILCHIMP_LIST_ID || 'missing',
+    'SERVER_PREFIX': process.env.NEXT_PUBLIC_MAILCHIMP_SERVER_PREFIX || 'missing',
+    'CAMPAIGN_ID': process.env.NEXT_PUBLIC_MAILCHIMP_CAMPAIGN_ID || 'missing'
+  });
+
+  // Set CORS headers
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-
 
   if (req.method === "OPTIONS") {
     return res.status(200).end();
@@ -14,80 +22,37 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { email, firstName, lastName } = req.body;
-
-  console.log('Validating request data:', {
-    hasEmail: !!email,
-    hasFirstName: !!firstName,
-    hasLastName: !!lastName
-  });
-
   try {
-    // Initialize Mailchimp
+    // Configure Mailchimp with new variable names
     mailchimp.setConfig({
       apiKey: process.env.NEXT_PUBLIC_MAILCHIMP_API_KEY,
       server: process.env.NEXT_PUBLIC_MAILCHIMP_SERVER_PREFIX
     });
 
-    // Test API connection first
-    try {
-      const pingResponse = await mailchimp.ping.get();
-      console.log('Mailchimp connection test:', pingResponse);
-    } catch (pingError) {
-      console.error('Connection test failed:', pingError.message);
-      throw new Error('Failed to connect to Mailchimp');
-    }
+    const { email, firstName, lastName } = req.body;
 
-    // Add to list
-    let subscribeResponse = null;
-    let isAlreadySubscribed = false;
-
-    try {
-      subscribeResponse = await mailchimp.lists.addListMember(process.env.NEXT_PUBLIC_MAILCHIMP_LIST_ID, {
+    const addSubscriberResponse = await mailchimp.lists.addListMember(
+      process.env.NEXT_PUBLIC_MAILCHIMP_LIST_ID,
+      {
         email_address: email,
         status: 'subscribed',
         merge_fields: {
           FNAME: firstName,
           LNAME: lastName
         }
-      });
-      console.log('Successfully added to list:', subscribeResponse.id);
-    } catch (error) {
-      // Check if user already exists
-      if (error.response && error.response.status === 400) {
-        console.log('User might already be subscribed');
-        isAlreadySubscribed = true;
-      } else {
-        throw error;
       }
+    );
+
+    if (process.env.mailchimp_campaign_id) {
+      await mailchimp.campaigns.send(process.env.NEXT_PUBLIC_MAILCHIMP_CAMPAIGN_ID;
     }
 
-    // Only try to send campaign if subscribe worked or user already exists
-    if (subscribeResponse || isAlreadySubscribed) {
-      try {
-        await mailchimp.campaigns.send(process.env.NEXT_PUBLIC_MAILCHIMP_CAMPAIGN_ID);
-        console.log('Campaign sent successfully');
-      } catch (campaignError) {
-        console.error('Campaign send failed:', campaignError.message);
-        // Don't fail the whole request if campaign send fails
-      }
-    }
-
-    return res.status(200).json({ 
-      success: true,
-      message: 'Subscription processed successfully'
-    });
-
+    console.log('Successfully processed Mailchimp actions');
+    return res.status(200).json({ success: true });
   } catch (error) {
-    console.error('Operation failed:', {
-      message: error.message,
-      type: error.type,
-      status: error.status,
-      detail: error.detail
-    });
-
+    console.error('Mailchimp error:', error.message);
     return res.status(500).json({
-      error: 'Subscription processing failed',
+      error: 'Error processing Mailchimp actions',
       details: error.message
     });
   }
