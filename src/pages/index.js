@@ -14,6 +14,8 @@ Object.entries(process.env).forEach(([key, value]) => {
     console.log(`${key}: ${value}`);
 });
 
+  console.log(process.env); 
+
   console.log('Environment Variables Status:', {
     'API_KEY': process.env.NEXT_PUBLIC_MAILCHIMP_API_KEY || 'missing',
     'LIST_ID': process.env.NEXT_PUBLIC_MAILCHIMP_LIST_ID || 'missing',
