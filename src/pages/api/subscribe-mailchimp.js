@@ -13,33 +13,35 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  const { email, firstName, lastName } = req.body;
+
+  // Log request validation
+  console.log('Validating request data:', {
+    hasEmail: !!email,
+    hasFirstName: !!firstName,
+    hasLastName: !!lastName
+  });
+
   try {
+    // Initialize Mailchimp
     mailchimp.setConfig({
-      apiKey: '7431d3cb257eaf454eeb91b4b5943a75-us22',
+      apiKey: 'c7929cd3b2b24ae4957c42cd667987a2-us22',
       server: 'us22'
     });
 
-    const { email, firstName, lastName } = req.body;
-
-    // Log the request data
-    console.log('Request data:', {
-      email,
-      firstName,
-      lastName
-    });
-
-    // Step 1: Try to get list info first
+    // Test API connection first
     try {
-      const listInfo = await mailchimp.lists.getList('4bca6a5a1d');
-      console.log('List info retrieved:', listInfo.name);
-    } catch (listError) {
-      console.error('List error:', listError.message);
-      throw new Error(`List error: ${listError.message}`);
+      const pingResponse = await mailchimp.ping.get();
+      console.log('Mailchimp connection test:', pingResponse);
+    } catch (pingError) {
+      console.error('Connection test failed:', pingError.message);
+      throw new Error('Failed to connect to Mailchimp');
     }
 
-    // Step 2: Try to add member
+    // Add to list
+    let subscribeResponse;
     try {
-      const addSubscriberResponse = await mailchimp.lists.addListMember('4bca6a5a1d', {
+      subscribeResponse = await mailchimp.lists.addListMember('4bca6a5a1d', {
         email_address: email,
         status: 'subscribed',
         merge_fields: {
@@ -47,39 +49,43 @@ export default async function handler(req, res) {
           LNAME: lastName
         }
       });
-      console.log('Subscriber added:', addSubscriberResponse.id);
-    } catch (subscriberError) {
-      console.error('Subscriber error:', subscriberError.message);
-      throw new Error(`Subscriber error: ${subscriberError.message}`);
+      console.log('Successfully added to list:', subscribeResponse.id);
+    } catch (subscribeError) {
+      // Check if user already exists
+      if (subscribeError.response && subscribeError.response.status === 400) {
+        console.log('User might already be subscribed');
+      } else {
+        throw subscribeError;
+      }
     }
 
-    // Step 3: Try to get campaign info
-    try {
-      const campaignInfo = await mailchimp.campaigns.get('33903');
-      console.log('Campaign info retrieved:', campaignInfo.settings.title);
-    } catch (campaignError) {
-      console.error('Campaign error:', campaignError.message);
-      throw new Error(`Campaign error: ${campaignError.message}`);
+    // Only try to send campaign if subscribe worked
+    if (subscribeResponse || subscribeError?.response?.status === 400) {
+      try {
+        await mailchimp.campaigns.send('33903');
+        console.log('Campaign sent successfully');
+      } catch (campaignError) {
+        console.error('Campaign send failed:', campaignError.message);
+        // Don't fail the whole request if campaign send fails
+      }
     }
 
-    // Step 4: Try to send campaign
-    try {
-      await mailchimp.campaigns.send('33903');
-      console.log('Campaign sent successfully');
-    } catch (sendError) {
-      console.error('Send campaign error:', sendError.message);
-      throw new Error(`Send campaign error: ${sendError.message}`);
-    }
-
-    return res.status(200).json({ success: true });
-  } catch (error) {
-    console.error('Final error:', {
-      message: error.message,
-      originalError: error.original ? error.original.message : null
+    return res.status(200).json({ 
+      success: true,
+      message: 'Subscription processed successfully'
     });
-    
+
+  } catch (error) {
+    console.error('Operation failed:', {
+      message: error.message,
+      type: error.type,
+      status: error.status,
+      detail: error.detail
+    });
+
+    // Send appropriate error response
     return res.status(500).json({
-      error: 'Error processing Mailchimp actions',
+      error: 'Subscription processing failed',
       details: error.message
     });
   }
