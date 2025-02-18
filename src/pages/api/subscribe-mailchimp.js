@@ -5,7 +5,6 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-const accessKey = process.env.NEXT_PUBLIC_MAILCHIMP_API_KEY;
 
 console.log(accessKey);
 return;
@@ -29,7 +28,7 @@ return;
   try {
     // Initialize Mailchimp
     mailchimp.setConfig({
-      apiKey: 'c7929cd3b2b24ae4957c42cd667987a2-us22',
+      apiKey: process.env.NEXT_PUBLIC_MAILCHIMP_API_KEY,
       server: 'us22'
     });
 
