@@ -15,7 +15,6 @@ export default async function handler(req, res) {
 
   const { email, firstName, lastName } = req.body;
 
-  // Log request validation
   console.log('Validating request data:', {
     hasEmail: !!email,
     hasFirstName: !!firstName,
@@ -39,7 +38,9 @@ export default async function handler(req, res) {
     }
 
     // Add to list
-    let subscribeResponse;
+    let subscribeResponse = null;
+    let isAlreadySubscribed = false;
+
     try {
       subscribeResponse = await mailchimp.lists.addListMember('4bca6a5a1d', {
         email_address: email,
@@ -50,17 +51,18 @@ export default async function handler(req, res) {
         }
       });
       console.log('Successfully added to list:', subscribeResponse.id);
-    } catch (subscribeError) {
+    } catch (error) {
       // Check if user already exists
-      if (subscribeError.response && subscribeError.response.status === 400) {
+      if (error.response && error.response.status === 400) {
         console.log('User might already be subscribed');
+        isAlreadySubscribed = true;
       } else {
-        throw subscribeError;
+        throw error;
       }
     }
 
-    // Only try to send campaign if subscribe worked
-    if (subscribeResponse || subscribeError?.response?.status === 400) {
+    // Only try to send campaign if subscribe worked or user already exists
+    if (subscribeResponse || isAlreadySubscribed) {
       try {
         await mailchimp.campaigns.send('33903');
         console.log('Campaign sent successfully');
@@ -83,7 +85,6 @@ export default async function handler(req, res) {
       detail: error.detail
     });
 
-    // Send appropriate error response
     return res.status(500).json({
       error: 'Subscription processing failed',
       details: error.message
