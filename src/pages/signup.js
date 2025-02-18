@@ -155,7 +155,7 @@ export default function SignUp() {
       </Box>
 
       <Typography variant="h5" sx={{ textAlign: 'center', mb: 4 }}>
-        Be notified when Quilly launches on your campus!
+        Please enter your UC Berkeley email
       </Typography>
 
       {/* Form Container */}
