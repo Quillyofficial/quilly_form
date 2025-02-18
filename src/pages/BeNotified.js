@@ -1,34 +1,19 @@
 import React, { useState } from 'react';
-import { 
-  TextField, 
-  Typography, 
-  Button, 
-  Box, 
-  FormHelperText, 
-  Checkbox, 
-  Grid 
-} from '@mui/material';
+import { Typography, FormHelperText, Button, Box, TextField } from '@mui/material';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-export default function SignUp() {
+export default function BeNotified() {
   const router = useRouter();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
-    phone: "",
-    agreed: false
+    phone: ""
   });
+  const [errors, setErrors] = useState({});
 
-  const [errors, setErrors] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    agreed: ""
-  });
-
+  // Validation functions
   const validateEmail = (email) => {
     const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     return regex.test(email);
@@ -43,19 +28,16 @@ export default function SignUp() {
     let tempErrors = {};
     let isValid = true;
 
-    // First Name validation
     if (!formData.firstName.trim()) {
       tempErrors.firstName = "First name is required";
       isValid = false;
     }
 
-    // Last Name validation
     if (!formData.lastName.trim()) {
       tempErrors.lastName = "Last name is required";
       isValid = false;
     }
 
-    // Email validation
     if (!formData.email) {
       tempErrors.email = "Email is required";
       isValid = false;
@@ -64,7 +46,6 @@ export default function SignUp() {
       isValid = false;
     }
 
-    // Phone validation
     if (!formData.phone) {
       tempErrors.phone = "Phone number is required";
       isValid = false;
@@ -73,53 +54,62 @@ export default function SignUp() {
       isValid = false;
     }
 
-    // Agreement validation
-    if (!formData.agreed) {
-      tempErrors.agreed = "You must agree to the terms and conditions";
-      isValid = false;
-    }
-
     setErrors(tempErrors);
     return isValid;
   };
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    const newValue = type === 'checkbox' ? checked : value;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
 
+    try {
+      // Prepare data for Airtable
+      const airtableData = {
+        'First Name': formData.firstName,
+        'Last Name': formData.lastName,
+        'Email': formData.email,
+        'Phone': formData.phone,
+        'Type': 'Non-Berkeley Student' // Add this to differentiate from regular signups
+      };
+
+      console.log('Sending data to Airtable:', airtableData);
+      
+      // Send to Airtable
+      const response = await fetch("/api/send-to-airtable", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(airtableData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save to Airtable');
+      }
+
+      // Navigate to thank you page or next step
+      router.push('/thanksNotify');
+    } catch (error) {
+      console.error('Error saving data:', error);
+      setErrors({ submit: 'Failed to save your information. Please try again.' });
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: newValue
+      [name]: value
     }));
-
     // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
         [name]: ""
       }));
-    }
-  };
-
-  const handlePhone = (e) => {
-    let value = e.target.value.replace(/[^0-9]/g, '');
-    if (value.length > 10) value = value.slice(0, 10);
-    
-    setFormData(prev => ({
-      ...prev,
-      phone: value
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    if (validateForm()) {
-      // Store in localStorage
-      Object.entries(formData).forEach(([key, value]) => {
-        localStorage.setItem(key, value.toString());
-      });
-      router.push('/thanksNotified');
     }
   };
 
@@ -134,140 +124,115 @@ export default function SignUp() {
         padding: 3
       }}
     >
-      {/* Image Container */}
+      {/* Content Container */}
       <Box
         sx={{
-          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
           width: '100%',
-          maxWidth: '350px',
-          height: '200px',
-          mb: 4,
-          mt: { xs: 2, md: 4 }
+          maxWidth: 'sm',
+          gap: 2,
+          mt: 4
         }}
       >
-        <Image
-          src="/images/signup.png"
-          alt="Sign Up"
-          fill
-          style={{ objectFit: 'contain' }}
-          priority
-        />
-      </Box>
-
-      <Typography variant="h5" sx={{ textAlign: 'center', mb: 4 }}>
-        Be notified when Quilly launches on your campus!
-      </Typography>
-
-      {/* Form Container */}
-      <Box
-        component="form"
-        onSubmit={handleSubmit}
-        sx={{
-          width: '100%',
-          maxWidth: '600px',
-          mx: 'auto',
-        }}
-      >
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <TextField 
-              name="firstName"
-              label="First Name"
-              variant="outlined" 
-              fullWidth 
-              required
-              value={formData.firstName}
-              onChange={handleChange}
-              error={!!errors.firstName}
-              helperText={errors.firstName}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField 
-              name="lastName"
-              label="Last Name"
-              variant="outlined"
-              fullWidth
-              required
-              value={formData.lastName}
-              onChange={handleChange}
-              error={!!errors.lastName}
-              helperText={errors.lastName}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField 
-              name="email"
-              label="Email Address"
-              variant="outlined"
-              fullWidth
-              required
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-              error={!!errors.email}
-              helperText={errors.email}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              name="phone"
-              label="Phone Number"
-              variant="outlined"
-              fullWidth
-              required
-              value={formData.phone}
-              onChange={handlePhone}
-              error={!!errors.phone}
-              helperText={errors.phone}
-              inputProps={{ maxLength: 10 }}
-              placeholder="1234567890"
-            />
-          </Grid>
-        </Grid>
-
-        {/* Terms and Conditions */}
-        <Box
+        <Typography 
+          variant="h5" 
           sx={{ 
-            display: 'flex',
-            alignItems: 'anchor-center',
-            mt: 2,
+            textAlign: 'center',
             mb: 2
           }}
         >
-          <Checkbox 
-            name="agreed"
-            checked={formData.agreed}
-            onChange={handleChange}
-          />
-          <Box sx={{ ml: 1 }}>
-            <Typography variant="body2">
-              I agree with the terms and conditions
-            </Typography>
-            {errors.agreed && (
-              <FormHelperText error>{errors.agreed}</FormHelperText>
-            )}
-          </Box>
-        </Box>
+          We'll let you know when Quilly comes to your campus!
+        </Typography>
 
-        <Button
-          type="submit"
-          fullWidth
-          sx={{ 
-            backgroundColor: 'rgba(232, 226, 237, 1)',
-            color: 'black',
-            fontWeight: 'bold',
-            borderRadius: '20px',
-            height: '50px',
-            border: 1,
-            mt: 2,
-            '&:hover': {
-              backgroundColor: 'rgba(222, 216, 227, 1)',
-            }
+        {/* Form */}
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          sx={{
+            width: '100%',
+            maxWidth: '400px',
+            mt: 2
           }}
         >
-          Submit
-        </Button>
+          <TextField
+            name="firstName"
+            label="First Name"
+            variant="outlined"
+            fullWidth
+            required
+            value={formData.firstName}
+            onChange={handleChange}
+            error={!!errors.firstName}
+            helperText={errors.firstName}
+            sx={{ mb: 2 }}
+          />
+
+          <TextField
+            name="lastName"
+            label="Last Name"
+            variant="outlined"
+            fullWidth
+            required
+            value={formData.lastName}
+            onChange={handleChange}
+            error={!!errors.lastName}
+            helperText={errors.lastName}
+            sx={{ mb: 2 }}
+          />
+
+          <TextField
+            name="email"
+            label="Email Address"
+            variant="outlined"
+            fullWidth
+            required
+            type="email"
+            value={formData.email}
+            onChange={handleChange}
+            error={!!errors.email}
+            helperText={errors.email}
+            sx={{ mb: 2 }}
+          />
+
+          <TextField
+            name="phone"
+            label="Phone Number"
+            variant="outlined"
+            fullWidth
+            required
+            value={formData.phone}
+            onChange={handleChange}
+            error={!!errors.phone}
+            helperText={errors.phone}
+            sx={{ mb: 3 }}
+          />
+
+          {errors.submit && (
+            <Typography color="error" sx={{ mb: 2 }}>
+              {errors.submit}
+            </Typography>
+          )}
+
+          <Button
+            type="submit"
+            fullWidth
+            sx={{
+              backgroundColor: 'rgba(232, 226, 237, 1)',
+              color: 'black',
+              fontWeight: 'bold',
+              borderRadius: '20px',
+              height: '50px',
+              border: 1,
+              '&:hover': {
+                backgroundColor: 'rgba(222, 216, 227, 1)',
+              }
+            }}
+          >
+            Submit
+          </Button>
+        </Box>
       </Box>
 
       {/* Footer */}
@@ -276,7 +241,8 @@ export default function SignUp() {
           textAlign: 'center',
           position: 'absolute',
           bottom: 2,
-          width: '100%'
+          width: '100%',
+          pb: 1
         }}
       >
         www.myquilly.com Terms of Use
