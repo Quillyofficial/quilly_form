@@ -1,8 +1,6 @@
 import mailchimp from '@mailchimp/mailchimp_marketing';
 
 export default async function handler(req, res) {
-
-  // Set CORS headers
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -16,24 +14,6 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Check if all required environment variables are present
-    // if (!process.env.REACT_APP_MAILCHIMP_API_KEY) {
-    //  throw new Error('MAILCHIMP_API_KEY is missing');
-   // }
-   // if (!process.env.REACT_APP_MAILCHIMP_SERVER_PREFIX) {
-   //   throw new Error('MAILCHIMP_SERVER_PREFIX is missing');
-   // }
-   // if (!process.env.REACT_APP_MAILCHIMP_LIST_ID) {
-   //   throw new Error('MAILCHIMP_LIST_ID is missing');
-  //  }
- 
-    // Log configuration
-    console.log('Attempting Mailchimp operation with:', {
-      listId: '4bca6a5a1d',
-      campaignId: '33903'
-    });
-
-    // Configure Mailchimp with exact environment variable names
     mailchimp.setConfig({
       apiKey: '7431d3cb257eaf454eeb91b4b5943a75-us22',
       server: 'us22'
@@ -41,36 +21,61 @@ export default async function handler(req, res) {
 
     const { email, firstName, lastName } = req.body;
 
-    // Add member to list using exact environment variable name
-    const addSubscriberResponse = await mailchimp.lists.addListMember(
-      '4bca6a5a1d',
-      {
+    // Log the request data
+    console.log('Request data:', {
+      email,
+      firstName,
+      lastName
+    });
+
+    // Step 1: Try to get list info first
+    try {
+      const listInfo = await mailchimp.lists.getList('4bca6a5a1d');
+      console.log('List info retrieved:', listInfo.name);
+    } catch (listError) {
+      console.error('List error:', listError.message);
+      throw new Error(`List error: ${listError.message}`);
+    }
+
+    // Step 2: Try to add member
+    try {
+      const addSubscriberResponse = await mailchimp.lists.addListMember('4bca6a5a1d', {
         email_address: email,
         status: 'subscribed',
         merge_fields: {
           FNAME: firstName,
           LNAME: lastName
         }
-      }
-    );
+      });
+      console.log('Subscriber added:', addSubscriberResponse.id);
+    } catch (subscriberError) {
+      console.error('Subscriber error:', subscriberError.message);
+      throw new Error(`Subscriber error: ${subscriberError.message}`);
+    }
 
-    // Then try sending the campaign separately
+    // Step 3: Try to get campaign info
     try {
-      await mailchimp.campaigns.send('33903');
-      console.log('Successfully sent campaign');
+      const campaignInfo = await mailchimp.campaigns.get('33903');
+      console.log('Campaign info retrieved:', campaignInfo.settings.title);
     } catch (campaignError) {
       console.error('Campaign error:', campaignError.message);
-      // Don't throw the error, just log it
+      throw new Error(`Campaign error: ${campaignError.message}`);
+    }
+
+    // Step 4: Try to send campaign
+    try {
+      await mailchimp.campaigns.send('33903');
+      console.log('Campaign sent successfully');
+    } catch (sendError) {
+      console.error('Send campaign error:', sendError.message);
+      throw new Error(`Send campaign error: ${sendError.message}`);
     }
 
     return res.status(200).json({ success: true });
-} catch (error) {
-    console.error('Detailed error:', {
+  } catch (error) {
+    console.error('Final error:', {
       message: error.message,
-      type: error.type,
-      path: error.path,
-      listId: '4bca6a5a1d',
-      campaignId: '33903'
+      originalError: error.original ? error.original.message : null
     });
     
     return res.status(500).json({
