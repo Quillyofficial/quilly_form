@@ -26,7 +26,7 @@ export default async function handler(req, res) {
     // Initialize Mailchimp
     mailchimp.setConfig({
       apiKey: process.env.NEXT_PUBLIC_MAILCHIMP_API_KEY,
-      server: 'us22'
+      server: process.env.NEXT_PUBLIC_MAILCHIMP_SERVER_PREFIX
     });
 
     // Test API connection first
@@ -43,7 +43,7 @@ export default async function handler(req, res) {
     let isAlreadySubscribed = false;
 
     try {
-      subscribeResponse = await mailchimp.lists.addListMember('4bca6a5a1d', {
+      subscribeResponse = await mailchimp.lists.addListMember(process.env.NEXT_PUBLIC_MAILCHIMP_LIST_ID, {
         email_address: email,
         status: 'subscribed',
         merge_fields: {
@@ -65,7 +65,7 @@ export default async function handler(req, res) {
     // Only try to send campaign if subscribe worked or user already exists
     if (subscribeResponse || isAlreadySubscribed) {
       try {
-        await mailchimp.campaigns.send('33903');
+        await mailchimp.campaigns.send(process.env.NEXT_PUBLIC_MAILCHIMP_CAMPAIGN_ID);
         console.log('Campaign sent successfully');
       } catch (campaignError) {
         console.error('Campaign send failed:', campaignError.message);
