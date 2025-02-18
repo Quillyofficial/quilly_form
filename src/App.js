@@ -3,7 +3,7 @@ import './App.css';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import AskMore from './pages/AskMore';
-import BeNotified from './pages/BeNotified';
+import BeNotified from './pages/beNotified';
 import Interests from './pages/Interests';
 import JoinDiscord from './pages/JoinDiscord';
 import KahloHouse from './pages/KahloHouse';
@@ -19,6 +19,7 @@ import StartingVibe from './pages/StartingVibe';
 import Thanks from './pages/Thanks';
 import Welcome from './pages/Welcome';
 import Pledge from './pages/Pledge';
+import ThanksNotified from './pages/ThanksNotified';
 import ThanksAgain from './pages/ThanksAgain';
 import MCQOne from './pages/MCQOne';
 import MCQSeven from './pages/MCQSeven';
@@ -57,6 +58,7 @@ function App() {
         <Route path="/signUp" element={<SignUp />} />
         <Route path="/thanks" element={<Thanks />} />
         <Route path="/welcome" element={<Welcome />} />
+	<Route path="/thanksNotified" element={<ThanksNotified />} />
         <Route path="/pledge" element={<Pledge />} />
         <Route path="/thanksAgain" element={<ThanksAgain/>} />
         <Route path="/school" element={<School />} />
