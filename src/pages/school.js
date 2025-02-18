@@ -10,7 +10,7 @@ export default function School() {
     if (answer === 'yes') {
       router.push('/signup');
     } else {
-      router.push('/beNotified');
+      router.push('/BeNotified');
     }
   };
 
