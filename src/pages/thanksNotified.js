@@ -46,7 +46,7 @@ export default function Thanks() {
           }}
         >
           <Image
-            src="/images/buddies.png"
+            src="/images/star_non.png"
             alt="Hugging Friends"
             fill
             style={{ objectFit: 'contain' }}
@@ -86,24 +86,6 @@ export default function Thanks() {
             Thanks for letting us know where Quilly should go next! <br/>
           </FormHelperText>
 
-          <Button
-            onClick={handleSubmit}
-            sx={{
-              backgroundColor: 'rgba(232, 226, 237, 1)',
-              color: 'black',
-              fontWeight: 'bold',
-              borderRadius: '20px',
-              width: { xs: '100%', sm: '400px' },
-              height: '50px',
-              border: 1,
-              mt: 2,
-              '&:hover': {
-                backgroundColor: 'rgba(222, 216, 227, 1)',
-              }
-            }}
-          >
-            Continue
-          </Button>
         </Box>
       </Box>
 
